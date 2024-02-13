@@ -1,0 +1,30 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.income,
+.expense,
+.balance {
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 100px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+}
+
+.graph {
+  grid-column: span 2;
+  max-height: 200px; /* Adjust the max height as per your requirement */
+
+  align: center;
+}
+
+.graph-image {
+  border-radius: 10px;
+  width: auto;
+  height: 100%;
+}
