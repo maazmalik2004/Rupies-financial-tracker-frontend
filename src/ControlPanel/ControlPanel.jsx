@@ -2,30 +2,42 @@ import React, { useState } from "react";
 import "./controlpanel.css";
 import MenuSelect from "./MenuSelect";
 import ScrollableMenuSelect from "./ScrollableMenuSelect";
+import { useAppState } from "../AppStateContext";
+import FloatingActionButtons from "./FloatingActionButtons";
 
 function ControlPanel({ onTermSelect, onMonthSelect }) {
-  const [termSelection, setTermSelection] = useState("monthly");
+  const { termSelect, setTermSelect } = useAppState();
+  const { monthSelect, setMonthSelect } = useAppState();
+  const { setIsFormActive } = useAppState();
 
   const handleTermSelect = (event) => {
-    setTermSelection(event);
-    onTermSelect(event);
+    console.log(event);
+    setTermSelect(event);
   };
 
   const handleMonthSelect = (event) => {
-    onMonthSelect(event);
+    console.log(event);
+    setMonthSelect(event);
+  };
+
+  const handleButtonClick = () => {
+    console.log("Button clicked!");
+    setIsFormActive(true);
   };
 
   return (
     <div className="control-panel">
       <MenuSelect
         onSelect={handleTermSelect}
-        options={["daily", "weekly", "monthly", "yearly"]}
+        currentSelect={termSelect}
+        menu={["daily", "weekly", "monthly", "yearly"]}
       />
       <br />
-      {termSelection === "monthly" && (
+      {termSelect === "monthly" && (
         <ScrollableMenuSelect
           onSelect={handleMonthSelect}
-          months={[
+          currentSelect={monthSelect}
+          menu={[
             "January",
             "February",
             "March",
@@ -41,6 +53,9 @@ function ControlPanel({ onTermSelect, onMonthSelect }) {
           ]}
         />
       )}
+      <div>
+        <FloatingActionButtons onClick={handleButtonClick} />
+      </div>
     </div>
   );
 }

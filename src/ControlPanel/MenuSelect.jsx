@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const MenuSelect = ({ onSelect, options }) => {
-  const [selectedItem, setSelectedItem] = useState("monthly");
+const MenuSelect = ({ onSelect, currentSelect, menu }) => {
+  const [selectedItem, setSelectedItem] = useState(currentSelect);
+
+  useEffect(() => {
+    setSelectedItem(currentSelect);
+  }, [currentSelect]);
 
   const handleSelect = (item) => {
     setSelectedItem(item);
@@ -10,7 +14,7 @@ const MenuSelect = ({ onSelect, options }) => {
 
   return (
     <div style={menuContainerStyle}>
-      {options.map((option) => (
+      {menu.map((option) => (
         <div
           key={option}
           style={menuItemStyle(selectedItem === option)}

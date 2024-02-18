@@ -1,44 +1,54 @@
+//import statements
 import React from "react";
 import "./navbar.css";
 import TabsSegmentedControls from "./TabsSegmentedControls";
 import CustomizableDateModule from "./CustomizableDateModule";
 import BasicAvatars from "./BasicAvatars";
 import SwitchControlled from "./SwitchControlled";
+import { useAppState } from "../AppStateContext";
 
-function Navbar(props) {
-  const { setTab } = props;
+function Navbar() {
+  //global states
+  const { selectedTab, setSelectedTab, userTheme, setUserTheme } =
+    useAppState();
+  //TabsSegmentedControls attrributes
 
-  const customTabs = [
-    { label: "dashboard" },
-    { label: "categories" },
-    { label: "feed" },
-    { label: "help" },
-  ];
+  //handler function for TabsSegmentedControls
+  const handleTabSelect = function (tab) {
+    console.log("Selected Tab:", tab);
+    setSelectedTab(tab);
+  };
 
-  function handleTabSelect(event) {
-    console.log("tab selection occurred", event);
-    // Call the callback function passed from the parent
-    setTab(event);
+  function handleSwitchSelect(newState) {
+    setUserTheme(newState);
+    console.log(newState);
+    // Perform any other actions based on the new state if needed
   }
 
+  //handler function for profile click
   function handleProfileClick(event) {
     console.log("profile click occurred");
-    console.log(event);
+    setSelectedTab("profile");
   }
 
+  //returning component
   return (
     <div className="nav">
-      <div className="nav-item">
-        <CustomizableDateModule format="ddd, MMM D, YYYY" />
+      <div>
+        <CustomizableDateModule />
       </div>
-      <div className="nav-item">
-        <TabsSegmentedControls onSelect={handleTabSelect} tabs={customTabs} />
+      <div>
+        <TabsSegmentedControls
+          tabs={["dashboard", "categories", "about", "help"]}
+          onSelect={handleTabSelect}
+          currentTab={selectedTab}
+        />
       </div>
-      <div className="flex-container">
-        <SwitchControlled />
+      <div className="right">
+        <SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} />
         <BasicAvatars
           name="Maaz Malik"
-          image="/static/images/avatar/1.jpg"
+          image="https://picsum.photos/200"
           onClick={handleProfileClick}
         />
       </div>

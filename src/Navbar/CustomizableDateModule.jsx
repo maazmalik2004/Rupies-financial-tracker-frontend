@@ -16,7 +16,7 @@ const monthsOfYear = [
   "Dec",
 ];
 
-const CustomizableDateModule = ({ format = "ddd, MMM D, YYYY" }) => {
+const CustomizableDateModule = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const CustomizableDateModule = ({ format = "ddd, MMM D, YYYY" }) => {
     const dayOfMonth = currentDate.getDate();
     const year = currentDate.getFullYear();
 
-    const formattedDate = format
+    const formattedDate = "ddd, MMM D, YYYY"
       .replace("ddd", dayOfWeek)
       .replace("MMM", month)
       .replace("D", dayOfMonth)

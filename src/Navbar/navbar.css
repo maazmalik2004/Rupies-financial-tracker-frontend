@@ -1,14 +1,11 @@
-/* navbar.css */
-
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  padding: 20px;
 }
 
-.flex-container {
+.right {
   display: flex;
   gap: 10px;
 }

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
 import Card from "./Card";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
+  useEffect(() => {
+    console.log("Income changed:", income);
+    console.log("Expense changed:", expense);
+    console.log("Balance changed:", balance);
+    console.log("Graph Image URL changed:", graphImageUrl);
+  }, [income, expense, balance, graphImageUrl]);
+
   return (
     <div className="dashboard-container">
       <div>

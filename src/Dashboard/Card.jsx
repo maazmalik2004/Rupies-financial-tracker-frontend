@@ -7,7 +7,8 @@ const baseStyle = {
 const styles = {
   baseStyle,
   card: {
-    width: "300px",
+    maxWidth: "100%", // Set maximum width to 100%
+    boxSizing: "border-box", // Include padding and border in the width calculation
     borderRadius: "8px",
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
     overflow: "hidden",
