@@ -33,6 +33,8 @@ export function AppStateProvider({ children }) {
 
   const [isFormActive, setIsFormActive] = React.useState(true);
 
+  const [logHistory, setLogHistory] = React.useState();
+
   return (
     <AppStateContext.Provider
       value={{
@@ -49,6 +51,8 @@ export function AppStateProvider({ children }) {
         setDashboardState,
         isFormActive,
         setIsFormActive,
+        logHistory,
+        setLogHistory,
       }}
     >
       {children}

@@ -31,14 +31,16 @@ function Form() {
   const postDetails = async () => {
     try {
       const jsonString = JSON.stringify(details);
-      const response = await axios.post("http://localhost:3000/data", {
+      const response = await axios.post("http://192.168.29.225:8000", {
         jsonString,
       });
+      //192.168.29.225
 
       const data = response.data;
       console.log(data);
     } catch (error) {
       console.error("Error posting data:", error);
+      alert("Error submitting form ! please check your internet connection");
     }
   };
 

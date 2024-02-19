@@ -9,7 +9,7 @@ const styles = {
   card: {
     maxWidth: "100%", // Set maximum width to 100%
     boxSizing: "border-box", // Include padding and border in the width calculation
-    borderRadius: "8px",
+    borderRadius: "10px",
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
     overflow: "hidden",
     backgroundColor: "#333",
@@ -57,7 +57,6 @@ function Card({ title, content, imageUrl, buttonText }) {
       <div style={{ ...styles.content }}>
         <strong style={{ fontSize: "72px" }}>{content}</strong>
       </div>
-      <button style={styles.button}>{buttonText}</button>
     </div>
   );
 }

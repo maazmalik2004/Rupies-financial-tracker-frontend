@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
 import Card from "./Card";
+import LogHistory from "./LogHistory/LogHistory";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
   useEffect(() => {
@@ -24,6 +25,9 @@ const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
       </div>
       <div className="graph">
         <img src={graphImageUrl} alt="Graph" className="graph-image" />
+      </div>
+      <div>
+        <LogHistory />
       </div>
     </div>
   );
