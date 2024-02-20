@@ -21,13 +21,8 @@ function ControlPanel({ onTermSelect, onMonthSelect }) {
       console.log(data);
 
       // Decode base64-encoded image and create a data URL
-      const imageBuffer = Buffer.from(
-        data.imageUrlBase64.split(",")[1],
-        "base64"
-      );
-      const imageDataURL = `data:image/png;base64,${imageBuffer.toString(
-        "base64"
-      )}`;
+      const base64String = data.imageUrlBase64.split(",")[1];
+const imageDataURL = `data:image/png;base64,${base64String}`;
 
       // Update the dashboardState hook with the response data including the decoded image
       setDashboardState({
