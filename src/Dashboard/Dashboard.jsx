@@ -5,13 +5,6 @@ import Card from "./Card";
 import LogHistory from "./LogHistory/LogHistory";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
-  useEffect(() => {
-    console.log("Income changed:", income);
-    console.log("Expense changed:", expense);
-    console.log("Balance changed:", balance);
-    console.log("Graph Image URL changed:", graphImageUrl);
-  }, [income, expense, balance, graphImageUrl]);
-
   return (
     <div className="dashboard-container">
       <div>

@@ -30,17 +30,23 @@ function Form() {
 
   const postDetails = async () => {
     try {
-      const jsonString = JSON.stringify(details);
-      const response = await axios.post("http://192.168.29.225:8000", {
-        jsonString,
-      });
-      //192.168.29.225
+      console.log("Sending details to the server:", details);
+
+      const response = await axios.post(
+        "http://localhost:8000/form",
+        details, // Send the details object directly
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = response.data;
-      console.log(data);
+      console.log("Server response:", data);
     } catch (error) {
       console.error("Error posting data:", error);
-      alert("Error submitting form ! please check your internet connection");
+      alert("Error submitting form! Please check your internet connection");
     }
   };
 
@@ -99,11 +105,8 @@ function Form() {
     }));
   };
 
-  const handleSubmit = (buttonLabel) => {
-    // Trigger the callback function with the button label
+  const handleSubmit = () => {
     postDetails();
-    //const jsonString = JSON.stringify(details, null, 2); // The third parameter (2) adds indentation for better readability
-    //console.log(jsonString);
     console.log("your response has been submitted");
   };
 
