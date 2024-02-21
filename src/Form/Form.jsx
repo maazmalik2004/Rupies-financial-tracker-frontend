@@ -30,23 +30,16 @@ function Form() {
 
   const postDetails = async () => {
     try {
-      console.log("Sending details to the server:", details);
-
-      const response = await axios.post(
-        "http://localhost:8000/form",
-        details, // Send the details object directly
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const jsonString = JSON.stringify(details);
+      const response = await axios.post("http://localhost:8000/form/", {
+        jsonString,
+      });
 
       const data = response.data;
-      console.log("Server response:", data);
+      console.log(data);
+      console.log("your response has been submitted");
     } catch (error) {
       console.error("Error posting data:", error);
-      alert("Error submitting form! Please check your internet connection");
     }
   };
 
@@ -105,9 +98,9 @@ function Form() {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (buttonLabel) => {
+    // Trigger the callback function with the button label
     postDetails();
-    console.log("your response has been submitted");
   };
 
   useEffect(() => {
@@ -168,4 +161,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default Form;
