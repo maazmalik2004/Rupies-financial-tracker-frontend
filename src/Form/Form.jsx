@@ -16,11 +16,13 @@ import axios from "axios";
 function Form() {
   const currentDate = dayjs(); // Get the current date
   const { setIsFormActive } = useAppState(); // Assuming you want to use this later
+  const { incomeSources, setIncomeSources } = useAppState(); 
+  const { expenseSources, setExpenseSources } = useAppState();
 
   const [details, setDetails] = useState({
-    type: "income",
+    type: "expense",
     name: "",
-    category: "category 1",
+    category: "",
     description: "",
     amount: 0,
     recurring: false,
@@ -38,6 +40,7 @@ function Form() {
       const data = response.data;
       console.log(data);
       console.log("your response has been submitted");
+      setIsFormActive(false);
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -98,6 +101,24 @@ function Form() {
     }));
   };
 
+  function handleTermChange(term)
+
+  {
+
+    setDetails((prevDetails) => ({
+
+      ...prevDetails,
+
+      term: term,
+
+    }));
+
+    console.log("term change occured : ",term);
+
+  }
+
+
+
   const handleSubmit = (buttonLabel) => {
     // Trigger the callback function with the button label
     postDetails();
@@ -122,7 +143,7 @@ function Form() {
         <ControllableStates
           selectedValue={details.category}
           onValueChange={handleCategoryChange}
-          options={["category 1", "category 2", "category 3"]}
+          options={details.type==="income" ? incomeSources.map(obj => obj.name) :expenseSources.map(obj => obj.name)}
         />
       </div>
       <div>
@@ -149,7 +170,7 @@ function Form() {
             <DatePickerValue onEndDateChange={handleEndDateChange} />
           </div>
           <div>
-            <BasicSelect />
+          <BasicSelect selectedValue={details.term} onValueChange={handleTermChange} />
           </div>
         </>
       )}

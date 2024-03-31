@@ -19,40 +19,40 @@ export function AppStateProvider({ children }) {
     balance: 0,
     graphImage: "https://picsum.photos/200",
   });
-
-  const [incomeSources, setIncomeSources] = useState([
-    "source 1",
-    "source 2",
-    "source 3",
-  ]);
-  const [expenseSources, setExpenseSources] = useState([
-    "source 1",
-    "source 2",
-    "source 3",
-  ]);
-
+  
   const [isFormActive, setIsFormActive] = React.useState(true);
 
   const [logHistory, setLogHistory] = React.useState();
 
+  const [incomeSources, setIncomeSources]=useState([
+    { name: 'Salary', budget: 5000 },
+    { name: 'Freelance Income', budget: 2000 },
+    { name: 'Side Business', budget: 1500 },
+    { name: 'Investments', budget: 1000 },
+  ]);
+
+  const [expenseSources, setExpenseSources] = useState([
+    { name: 'Rent', budget: 1200 },
+    { name: 'Utilities', budget: 200 },
+    { name: 'Groceries', budget: 300 },
+    { name: 'Transportation', budget: 150 },
+  ]);
+
+  const [formSubmissionBuffer, setFormSubmissionBuffer] = useState([]);
+
   return (
     <AppStateContext.Provider
       value={{
-        selectedTab,
-        setSelectedTab,
-        userTheme,
-        setUserTheme,
-        termSelect,
-        setTermSelect,
-        monthSelect,
-        setMonthSelect,
-        // dashboard properties
-        dashboardState,
-        setDashboardState,
-        isFormActive,
-        setIsFormActive,
-        logHistory,
-        setLogHistory,
+        selectedTab,setSelectedTab,
+        userTheme,setUserTheme,
+        termSelect,setTermSelect,
+         monthSelect,setMonthSelect,
+        dashboardState,setDashboardState,
+        isFormActive,setIsFormActive,
+        logHistory, setLogHistory,
+        incomeSources, setIncomeSources,
+        expenseSources,setExpenseSources,
+        formSubmissionBuffer, setFormSubmissionBuffer,
       }}
     >
       {children}

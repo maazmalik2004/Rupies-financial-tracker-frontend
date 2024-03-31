@@ -5,11 +5,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function BasicSelect() {
-  const [age, setAge] = React.useState("");
-
+export default function BasicSelect({ selectedValue, onValueChange }) {
   const handleChange = (event) => {
-    setAge(event.target.value);
+    const newValue = event.target.value;
+    onValueChange(newValue);
   };
 
   return (
@@ -19,14 +18,14 @@ export default function BasicSelect() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
+          value={selectedValue}
+          label="Term"
           onChange={handleChange}
         >
-          <MenuItem value={10}>Monthly</MenuItem>
-          <MenuItem value={20}>Quarterly</MenuItem>
-          <MenuItem value={30}>Half yearly</MenuItem>
-          <MenuItem value={30}>Annualy</MenuItem>
+          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="quarterly">Quarterly</MenuItem>
+          <MenuItem value="halfYearly">Half Yearly</MenuItem>
+          <MenuItem value="annually">Annually</MenuItem>
         </Select>
       </FormControl>
     </Box>
