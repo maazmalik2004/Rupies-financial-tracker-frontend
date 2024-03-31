@@ -1,0 +1,80 @@
+.container {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 10px;
+    height: 100vh;
+    width: 100vw;
+    min-width: 900px;
+    min-height: 650px;
+    border-radius: 10px;
+    color: white;
+  }
+  .pane {
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+  }
+  .income-sources-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border-radius: 10px;
+  }
+  .expense-sources-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border-radius: 10px;
+  }
+  
+  .income-card {
+    display: flex;
+    align-items: center;
+    background-color: green;
+    width: calc(100% - 20px); /* Adjust for padding */
+    margin: 10px;
+    min-height: 50px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .expense-card {
+    display: flex;
+    align-items: center;
+    background-color: red;
+    width: calc(100% - 20px); /* Adjust for padding */
+    margin: 10px;
+    min-height: 50px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .category-card:hover {
+    display: flex;
+    align-items: center;
+    background-color: yellow;
+    width: calc(100% - 20px); /* Adjust for padding */
+    margin: 10px;
+    min-height: 50px;
+    border-radius: 10px;
+    transition: background-color 0.4s ease-in-out;
+  }
+  
+  .category-form {
+    background-color: white;
+  }
+  

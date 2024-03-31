@@ -5,6 +5,7 @@ import ControlPanel from "./ControlPanel/ControlPanel.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
 import { useAppState } from "./AppStateContext";
 import Form from "./Form/Form";
+import Categories from "./Categories/Categories.jsx";
 
 function App() {
   // Global states
@@ -40,6 +41,10 @@ function App() {
           <Form className="form" />
         </div>
       )}
+
+      
+          {selectedTab === "categories" &&(<Categories />)}
+
     </div>
   );
 }
