@@ -35,19 +35,14 @@ function Categories() {
   function handleClose() {
     setFormOpen(false);
   }
-  const handleSubmit = (newCategory, type) => {
-    if (type === "income") {
-      // Create a new array with the updated income sources
-      const updatedIncomeSources = [...incomeSources, newCategory];
-      // Update the income sources state with the new array
-      setIncomeSources(updatedIncomeSources);
-    } else if (type === "expense") {
-      // Create a new array with the updated expense sources
-      const updatedExpenseSources = [...expenseSources, newCategory];
-      // Update the expense sources state with the new array
-      setExpenseSources(updatedExpenseSources);
+  const handleSubmit = (formData) => {
+    console.log('inside handle Submit');
+    if (formData.type == 'income') {
+      console.log('inside income');
+      setIncomeSources(prevIncomeSources => [...prevIncomeSources, { name: formData.name, budget: formData.budget }]);
+    } else if (formData.type === 'expense') {
+      setExpenseSources(prevExpenseSources => [...prevExpenseSources, { name: formData.name, budget: formData.budget }]);
     }
-    setFormOpen(false); // Close the form after submitting
   };
 
   return (
