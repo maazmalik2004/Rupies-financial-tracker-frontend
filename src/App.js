@@ -6,6 +6,8 @@ import Dashboard from "./Dashboard/Dashboard.jsx";
 import { useAppState } from "./AppStateContext";
 import Form from "./Form/Form";
 import Categories from "./Categories/Categories.jsx";
+import Chatbot from "./Chatbot/Chatbot.jsx";
+
 
 function App() {
   // Global states
@@ -16,6 +18,7 @@ function App() {
 
   return (
     <div className="app">
+    <Chatbot/>
       <div className="navbar">
         <Navbar />
       </div>
