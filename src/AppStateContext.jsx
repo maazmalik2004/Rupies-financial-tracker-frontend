@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AppStateContext = createContext();
 
@@ -40,6 +40,15 @@ export function AppStateProvider({ children }) {
 
   const [formSubmissionBuffer, setFormSubmissionBuffer] = useState([]);
 
+  const [loggedIn, setLoggedIn] = useState(() => {
+    const storedIsLoggedIn = sessionStorage.getItem('loggedIn');
+    return storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false;
+});
+useEffect(() => {
+  sessionStorage.setItem('loggedIn', JSON.stringify(loggedIn));
+}, [loggedIn]);
+
+
   return (
     <AppStateContext.Provider
       value={{
@@ -53,6 +62,7 @@ export function AppStateProvider({ children }) {
         incomeSources, setIncomeSources,
         expenseSources,setExpenseSources,
         formSubmissionBuffer, setFormSubmissionBuffer,
+        loggedIn,setLoggedIn
       }}
     >
       {children}

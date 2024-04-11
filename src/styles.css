@@ -1,12 +1,9 @@
-body {
-  background-color: #0d0d0d;
-}
-
 .app {
   display: grid;
   grid-template-columns: minmax(200px, 20%) 80%;
   grid-template-rows: minmax(60px, 10vh) minmax(700px, 85vh);
   gap: 10px;
+  background-color: black;
 }
 
 .navbar {

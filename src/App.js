@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./styles.css";
 import Navbar from "./Navbar/Navbar.jsx";
 import ControlPanel from "./ControlPanel/ControlPanel.jsx";
@@ -7,16 +7,29 @@ import { useAppState } from "./AppStateContext";
 import Form from "./Form/Form";
 import Categories from "./Categories/Categories.jsx";
 import Chatbot from "./Chatbot/Chatbot.jsx";
+import Login from "./Login/Login.jsx";
 
 
 function App() {
   // Global states
+  const { loggedIn,setLoggedIn } = useAppState();
   const { selectedTab, setSelectedTab } = useAppState();
   const { dashboardState, setDashboardState } = useAppState();
   const { income, expense, balance, graphImage } = dashboardState;
   const { isFormActive, setIsFormActive } = useAppState();
 
+  if(loggedIn==true)
+  {
+    document.body.style.backgroundColor = "black";
+  }
+  else{
+    document.body.style.backgroundColor = "turquoise";
+  }
+
   return (
+    <>
+    {!loggedIn && <div><Login/></div>}
+    {loggedIn && (
     <div className="app">
     <Chatbot/>
       <div className="navbar">
@@ -48,7 +61,8 @@ function App() {
       
           {selectedTab === "categories" &&(<Categories />)}
 
-    </div>
+    </div>)}
+    </>
   );
 }
 
