@@ -11,7 +11,17 @@ export default function FloatingActionButtons({ onClick }) {
 
   return (
     <Box sx={{ "& > :not(style)": { m: 0 } }}>
-      <Fab color="primary" aria-label="add" onClick={handleClick}>
+      <Fab
+        aria-label="add"
+        onClick={handleClick}
+        sx={{
+          backgroundColor: "#30D5C8", // Turquoise color
+          "&:hover": {
+            backgroundColor: "#28BDB3", // Darker shade of turquoise for hover effect
+          },
+          color: "white", // Inner content color set to white
+        }}
+      >
         <AddIcon />
       </Fab>
     </Box>

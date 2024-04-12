@@ -5,6 +5,7 @@ import NavigationIcon from "@mui/icons-material/Add";
 
 export default function FloatingActionButtons({ onClick }) {
   const [isClicked, setIsClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
     setIsClicked(true);
@@ -16,7 +17,15 @@ export default function FloatingActionButtons({ onClick }) {
     // Reset isClicked state after 1 second (adjust the time as needed)
     setTimeout(() => {
       setIsClicked(false);
-    }, 1);
+    }, 1000); // 1 second
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   return (
@@ -24,9 +33,11 @@ export default function FloatingActionButtons({ onClick }) {
       <Fab
         variant="extended"
         onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         sx={{
-          backgroundColor: isClicked ? "darkblue" : "blue",
-          color: isClicked ? "white" : "black",
+          backgroundColor: isHovered ? "white" : "#28BDB3",
+          color: isHovered ? "#28BDB3" : "white",
         }}
       >
         <NavigationIcon sx={{ mr: 1 }} />

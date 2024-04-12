@@ -53,11 +53,11 @@ function LogHistory() {
   }
 
   return (
-    <div className="log-history" onClick={handleClick}>
+    <div className="log-history" onClick={handleClick} >
       {/* Use map function to render Log component for each log entry */}
       {logHistory &&
         logHistory.map((log, index) => (
-          <div key={index}>
+          <div key={index} style={{ width: "100%" }}>
             <Log
               amount={log.amount}
               category={log.category}

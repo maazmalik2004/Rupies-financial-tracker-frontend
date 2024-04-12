@@ -60,7 +60,7 @@ const imageDataURL = `data:image/png;base64,${base64String}`;
   return (
     <>
       <div className="control-panel">
-        <MenuSelect
+        {/*<MenuSelect
           onSelect={handleTermSelect}
           currentSelect={termSelect}
           menu={["daily", "weekly", "monthly", "yearly"]}
@@ -85,7 +85,7 @@ const imageDataURL = `data:image/png;base64,${base64String}`;
               "December",
             ]}
           />
-        )}
+        )}*/}
         <div className="log-new">
           <FloatingActionButtons onClick={handleButtonClick} />
         </div>

@@ -13,7 +13,18 @@ export default function SubmitButton({ onClick }) {
 
   return (
     <Box sx={{ "& > :not(style)": { m: 1 } }}>
-      <Fab variant="extended" onClick={() => handleButtonClick("submit")}>
+      <Fab
+        variant="extended"
+        onClick={() => handleButtonClick("submit")}
+        sx={{
+          backgroundColor: "#28BDB3", // Default background color
+          color: "white", // Default text color
+          "&:hover": {
+            backgroundColor: "white", // Background color on hover
+            color: "#28BDB3", // Text color on hover
+          },
+        }}
+      >
         <NavigationIcon sx={{ mr: 1 }} />
         Submit
       </Fab>

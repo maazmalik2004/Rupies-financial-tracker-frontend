@@ -1,25 +1,28 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
-import Card from "./Card";
+
 import LogHistory from "./LogHistory/LogHistory";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
   return (
     <div className="dashboard-container">
-      <div>
-        <Card title="INCOME" content={`₹${income}`} buttonText="" />
+      <div className="card">
+        <p>INCOME</p>
+        <h1 style={{color:"green"}}> ₹ {income}</h1>
       </div>
-      <div>
-        <Card title="EXPENSE" content={`₹${expense}`} buttonText="" />
+      <div className="card">
+      <p>EXPENSE</p>
+      <h1 style={{color:"red"}}> ₹ {expense}</h1>
       </div>
-      <div>
-        <Card title="BALANCE" content={`₹${balance}`} buttonText="" />
-      </div>
+      <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
       <div className="graph">
         <img src={graphImageUrl} alt="Graph" className="graph-image" />
       </div>
-      <div>
+      <div className="card">
         <LogHistory />
       </div>
     </div>

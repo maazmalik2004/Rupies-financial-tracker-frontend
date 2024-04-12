@@ -1,34 +1,44 @@
 .dashboard-container {
   display: grid;
+  height:100%;
+  width:100%;
   grid-template-columns: 30% 30% 30%;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 50% 50%;
   gap: 10px;
-  padding: 10px;
   align-items: center;
   justify-content: center;
 }
 
-.income,
-.expense,
-.balance {
+.card{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   grid-column: span 1;
+  height:90%;
   grid-row: span 1;
-  padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
-  background-color: yellow;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); 
+  background-color: #110f0f;
+}
+
+.card p{
+  color:white;
+}
+
+.card h1{
+  font-size:5em;
 }
 
 .graph {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   grid-column: span 2;
   grid-row: span 1;
-  background-color: #333333;
-  text-align: center;
+  background-color: #110f0f;
   border-radius: 10px;
-  justify-content: center;
-}
-
-.graph-image {
-  border-radius: 10px;
-  height: 100%;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7); 
+  height:90%;
 }

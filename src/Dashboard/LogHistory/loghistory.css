@@ -3,7 +3,7 @@
   flex-direction: column;
   background-color: #333333;
 
-  height: 200px;
+  height: 90%;
   width: 90%;
 
   border-radius: 10px;
@@ -11,6 +11,7 @@
   align-items: center;
   padding: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 .log {
@@ -23,26 +24,26 @@
   background-color: #222222;
   border-radius: 10px;
   width: 90%;
-  min-height: 100px;
   padding: 10px;
   margin: 10px;
-
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: white;
 }
 
 .log-history::-webkit-scrollbar {
-  width: 0.5em;
-}
+  display:none;
 
-.log-history::-webkit-scrollbar-thumb {
-  background-color: #888;
 }
 
 .amount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   grid-row: 1 / 3;
   background-color: #1a1a1a;
   height: 90%;
+  width: 90%;
   border-radius: 10px;
   font-size: 50px;
   align-items: center;
@@ -51,6 +52,9 @@
 }
 
 .category {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-row: 1 / 2;
   background-color: #1a1a1a;
   border-radius: 10px;
@@ -58,9 +62,13 @@
   justify-content: center;
   padding: 5px;
   height: 90%;
+  width: 90%;
 }
 
 .timestamp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-row: 2 / 3;
   background-color: #1a1a1a;
   border-radius: 10px;
@@ -68,17 +76,21 @@
   justify-content: center;
   padding: 5px;
   height: 90%;
+  width: 90%;
 }
 
 .recurring {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-row: 1 / 3;
   grid-column: 4 / 5;
   background-color: #1a1a1a;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  height: 20%;
+  height: 90%;
+  width: 90%;
 }
 
 .description {
