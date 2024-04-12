@@ -171,7 +171,7 @@ function Login() {
             case 0:
                 return (
                     <div className="login">
-                        <h1>Welcome</h1>
+                        <h1 >Welcome</h1>
                         <input
                             type="text"
                             className="input"
@@ -254,7 +254,8 @@ function Login() {
             case 2:
                 return (
                     <div className="login">
-                        <h1>Monthly Income</h1>
+                        <h1>2 / 3</h1>
+                        <p style={{color:"turquoise"}}>Income is used for personalization purposes, </p>
                         <input
                             type="number"
                             className="input"
@@ -273,12 +274,13 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
+                        <p style={{color:"turquoise"}}>User data is protected (lol)</p>
                     </div>
                 );
             case 3:
                 return (
                     <div className="login">
-                        <h1>Username and Password</h1>
+                        <h1>3 / 3</h1>
                         <input
                             type="text"
                             className="input"
