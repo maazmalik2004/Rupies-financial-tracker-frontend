@@ -3,6 +3,7 @@ import axios from 'axios';
 import SendIcon from '@mui/icons-material/Send';
 import LoadingIcon from './LoadingIcon';
 import AssistantIcon from '@mui/icons-material/Assistant';
+import CloseIcon from '@mui/icons-material/Close';
 import "./chatbot.css";
 
 function Chatbot() {
@@ -91,7 +92,8 @@ function Chatbot() {
                 </div>
             )}
             <div className="openchat" onClick={() => setChatOpen(!chatOpen)}>
-                <AssistantIcon style={{ color: "white" }} />
+            {(chatOpen)
+                ?(<CloseIcon style={{ color: "white"}}/>):(<AssistantIcon style={{ color: "white" }} />)}
             </div>
         </>
     );

@@ -39,7 +39,8 @@ function App() {
       {selectedTab === "dashboard" && (
         <>
           <div className="control-panel">
-            <ControlPanel />
+            <ControlPanel/>
+            <img src={require('./logo.png')} alt="Logo" className="logo"/>
           </div>
 
           <div className="dashboard">
