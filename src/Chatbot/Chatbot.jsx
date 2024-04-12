@@ -39,7 +39,7 @@ function Chatbot() {
             setChatLog(prevChatLog => [...prevChatLog, newMessage]);
             setPrompt("");
             setWaiting(true);
-            axios.post('http://localhost:8000/chatbot', { prompt })
+            axios.post('http://localhost:8000/chatbot', { message:prompt })
                 .then(response => {
                     const botMessage = {
                         timestamp: new Date().toLocaleTimeString(),
