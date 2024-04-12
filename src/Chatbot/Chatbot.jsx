@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import "./chatbot.css";
 import SendIcon from '@mui/icons-material/Send';
 import LoadingIcon from './LoadingIcon';
 import AssistantIcon from '@mui/icons-material/Assistant';
+import "./chatbot.css";
 
 function Chatbot() {
-    const [prompt, setPrompt] = useState('');
+    const [prompt, setPrompt] = useState("");
     const [chatLog, setChatLog] = useState([
         {
             timestamp: new Date().toLocaleTimeString(),
@@ -17,7 +17,17 @@ function Chatbot() {
     const [waiting, setWaiting] = useState(false);
     const [chatOpen, setChatOpen] = useState(false);
     const [serviceUnavailable, setServiceUnavailable] = useState(false);
-
+    
+    // Create a reference to the chat log div
+    const chatLogRef = useRef(null);
+    
+    // Automatically scroll to the bottom of the chat log div when chatLog changes
+    useEffect(() => {
+        if (chatLogRef.current) {
+            chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+        }
+    }, [chatLog]);
+    
     const sendMessage = () => {
         if (prompt && !waiting) {
             const newMessage = {
@@ -26,7 +36,7 @@ function Chatbot() {
                 content: prompt,
             };
             setChatLog(prevChatLog => [...prevChatLog, newMessage]);
-            setPrompt('');
+            setPrompt("");
             setWaiting(true);
             axios.post('http://localhost:8000/chatbot', { prompt })
                 .then(response => {
@@ -44,7 +54,7 @@ function Chatbot() {
                     setWaiting(false);
                     setServiceUnavailable(true);
                     // Remove the last unanswered user prompt from chatLog
-                    setChatLog(prevChatLog => prevChatLog.filter(message => message.sender !== 'user'));
+                    setChatLog(prevChatLog => prevChatLog.filter((message, index, array) => index !== array.map(m => m.sender).lastIndexOf('user') || message.sender !== 'user'));
                 });
         }
     };
@@ -59,7 +69,7 @@ function Chatbot() {
         <>
             {chatOpen && (
                 <div className="chatbox">
-                    <div className="chatlog">
+                    <div className="chatlog" ref={chatLogRef}>
                         {chatLog.map((message, index) => {
                             const messageClass = message.sender === 'bot' ? 'chatloggpt' : 'chatloguser';
                             return (
@@ -69,13 +79,13 @@ function Chatbot() {
                             );
                         })}
                         {waiting && <LoadingIcon />}
-                        {serviceUnavailable && <p>Service unavailable</p>}
+                        {serviceUnavailable && !waiting && <p style={{color:"turquoise"}}>Service unavailable</p>}
                     </div>
                     <input 
                         className="promptbox" 
                         value={prompt} 
                         onChange={(e) => setPrompt(e.target.value)} 
-                        onKeyPress={handleKeyPress}  // Add this line
+                        onKeyPress={handleKeyPress}  
                     />
                     <button className="submit" onClick={sendMessage}><SendIcon style={{ color: "white" }}/></button>
                 </div>
