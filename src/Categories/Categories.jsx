@@ -1,59 +1,175 @@
 import React, { useState, useEffect } from "react";
 import { useAppState } from "../AppStateContext";
-import axios from "axios";
 import "./categories.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import FloatingActionButtons from "./FloatingActionButtons";
-import CategoryForm from "./CategoryForm";
+import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 function Categories() {
+  const [responseMessage, setResponseMessage] = useState("");
+
   const { incomeSources, setIncomeSources, expenseSources, setExpenseSources } =
     useAppState();
-  const [formOpen, setFormOpen] = useState(false); // Initialize with false
+  const [formOpen, setFormOpen] = useState(false);
+  const [categoryForm, setCategoryForm] = useState({
+    type: "Expense",
+    name: "",
+    budget: "10000",
+  });
 
   useEffect(() => {
-    // This effect will run whenever incomeSources changes
     console.log("Updated incomeSources:", incomeSources);
-  }, [incomeSources]); // Only re-run the effect if incomeSources changes
+  }, [incomeSources]);
 
-  function handleDeleteCategory(index, type) {
-    if (type === "income") {
-      const updatedIncomeSources = [...incomeSources];
-      updatedIncomeSources.splice(index, 1);
-      setIncomeSources(updatedIncomeSources);
-    } else if (type === "expense") {
-      const updatedExpenseSources = [...expenseSources];
-      updatedExpenseSources.splice(index, 1);
-      setExpenseSources(updatedExpenseSources);
+  function handleAddCategory() {
+    setFormOpen((prevFormOpen) => !prevFormOpen);
+  }
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setCategoryForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (categoryForm.name.trim() === "") {
+      setResponseMessage("name cannot be empty");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/addcategory",
+        categoryForm,
+      );
+
+      if (response.data.status) {
+        setResponseMessage("Category added successfully");
+      } else {
+        setResponseMessage("Category addition failed");
+      }
+      reloadCategories()
+    } catch (error) {
+      setResponseMessage("Category addtion failed");
     }
   }
 
-  function handleAddCategory() {
-    setFormOpen(true);
-  }
+  async function handleDeleteCategory(index, type) {
+    try {
+        let categoryList;
+        if (type === "income") {
+            categoryList = incomeSources;
+        } else if (type === "expense") {
+            categoryList = expenseSources;
+        }
+
+        const categoryName = categoryList[index].name;
+
+        const payload = {
+            name: categoryName,
+            type: type,
+        };
+
+        const response = await axios.post(
+            "http://localhost:8000/deletecategory",
+            payload
+        );
+
+        if (response.data && response.data.status) {
+            setResponseMessage("Category deleted successfully");
+        } else {
+            setResponseMessage("Category deletion failed");
+        }
+        reloadCategories();
+    } catch (error) {
+        setResponseMessage("Category deletion failed");
+    }
+}
+
+
+  async function reloadCategories() {
+    try {
+        const response = await axios.get("http://localhost:8000/reloadcategories");
+
+        if (response.data) {
+            const categories = response.data;
+
+            const incomeCategories = categories.filter(category => category.type === "income" || category.type === "Income");
+            const expenseCategories = categories.filter(category => category.type === "expense" ||category.type === "Expense");
+
+            setIncomeSources(incomeCategories);
+            setExpenseSources(expenseCategories);
+        }
+    } catch (error) {
+        console.log("Failed to sync categories.");
+    }
+}
+
+useEffect(() => {
+  reloadCategories();
+  console.log(incomeSources);
+  console.log(expenseSources);
+}, []);
+
   function handleClose() {
     setFormOpen(false);
   }
-  const handleSubmit = (formData) => {
-    console.log('inside handle Submit');
-    if (formData.type == 'income') {
-      console.log('inside income');
-      setIncomeSources(prevIncomeSources => [...prevIncomeSources, { name: formData.name, budget: formData.budget }]);
-    } else if (formData.type === 'expense') {
-      setExpenseSources(prevExpenseSources => [...prevExpenseSources, { name: formData.name, budget: formData.budget }]);
-    }
-  };
 
   return (
     <div className="container">
       <div className="pane">
-        {formOpen && (
-          <CategoryForm onClose={handleClose} onSubmit={handleSubmit} />
-        )}
         <div onClick={handleAddCategory}>
-          <FloatingActionButtons />
+          {formOpen ? (
+            <FloatingActionButtons icon={<CloseIcon />} />
+          ) : (
+            <FloatingActionButtons />
+          )}
         </div>
+        {formOpen && (
+          <div className="categoryform">
+            <form className="formstyle" onSubmit={handleSubmit}>
+              <select
+                name="type"
+                value={categoryForm.type}
+                onChange={handleChange}
+                className="categoryinput"
+              >
+                <option value="" disabled>
+                  Select Type
+                </option>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+
+              <input
+                type="text"
+                name="name"
+                value={categoryForm.name}
+                onChange={handleChange}
+                className="categoryinput"
+                placeholder="Name"
+              />
+
+              <input
+                type="number"
+                name="budget"
+                value={categoryForm.budget}
+                onChange={handleChange}
+                className="categoryinput"
+                placeholder="Budget"
+              />
+              <button type="submit" className="categorybutton">
+                Add Category
+              </button>
+              <p style={{ color: "turquoise" }}>{responseMessage}</p>
+            </form>
+          </div>
+        )}
       </div>
       <div className="income-sources-pane">
         {incomeSources.map((source, index) => (

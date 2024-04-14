@@ -7,11 +7,6 @@ export function AppStateProvider({ children }) {
   const [selectedTab, setSelectedTab] = useState("dashboard");
   const [userTheme, setUserTheme] = useState(true); // true is dark theme, false is light theme
 
-  // control panel
-  const [termSelect, setTermSelect] = useState("monthly");
-  const currentMonth = new Date().toLocaleString("default", { month: "long" });
-  const [monthSelect, setMonthSelect] = useState(currentMonth);
-
   // dashboard
   const [dashboardState, setDashboardState] = useState({
     income: 0,
@@ -20,25 +15,15 @@ export function AppStateProvider({ children }) {
     graphImage: "https://picsum.photos/200",
   });
   
-  const [isFormActive, setIsFormActive] = React.useState(true);
+  const [isFormActive, setIsFormActive] = React.useState(false);
 
   const [logHistory, setLogHistory] = React.useState();
 
   const [incomeSources, setIncomeSources]=useState([
-    { name: 'Salary', budget: 5000 },
-    { name: 'Freelance Income', budget: 2000 },
-    { name: 'Side Business', budget: 1500 },
-    { name: 'Investments', budget: 1000 },
   ]);
 
   const [expenseSources, setExpenseSources] = useState([
-    { name: 'Rent', budget: 1200 },
-    { name: 'Utilities', budget: 200 },
-    { name: 'Groceries', budget: 300 },
-    { name: 'Transportation', budget: 150 },
   ]);
-
-  const [formSubmissionBuffer, setFormSubmissionBuffer] = useState([]);
 
   const [loggedIn, setLoggedIn] = useState(() => {
     const storedIsLoggedIn = sessionStorage.getItem('loggedIn');
@@ -48,21 +33,38 @@ useEffect(() => {
   sessionStorage.setItem('loggedIn', JSON.stringify(loggedIn));
 }, [loggedIn]);
 
+const [formState, setFormState] = useState(() => {
+  const storedFormState = sessionStorage.getItem('formState');
+  return storedFormState
+    ? JSON.parse(storedFormState)
+    : {
+        selectedOption: 'both',
+        allTimeCheckbox: false,
+        startDate: '',
+        endDate: '',
+        amountRangeCheckbox: false,
+        startingAmount: '',
+        endingAmount: '',
+        includeRecurringCheckbox: false,
+      };
+});
+
+useEffect(() => {
+  sessionStorage.setItem('formState', JSON.stringify(formState));
+}, [formState]);
 
   return (
     <AppStateContext.Provider
       value={{
         selectedTab,setSelectedTab,
         userTheme,setUserTheme,
-        termSelect,setTermSelect,
-         monthSelect,setMonthSelect,
         dashboardState,setDashboardState,
         isFormActive,setIsFormActive,
         logHistory, setLogHistory,
         incomeSources, setIncomeSources,
         expenseSources,setExpenseSources,
-        formSubmissionBuffer, setFormSubmissionBuffer,
-        loggedIn,setLoggedIn
+        loggedIn,setLoggedIn,
+        formState, setFormState,
       }}
     >
       {children}
