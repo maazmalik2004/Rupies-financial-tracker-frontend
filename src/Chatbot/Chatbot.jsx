@@ -36,15 +36,17 @@ function Chatbot() {
                 sender: 'user',
                 content: prompt,
             };
-            setChatLog(prevChatLog => [...prevChatLog, newMessage]);
+            setChatLog(prevChatLog => [...prevChatLog, newMessage]); 
             setPrompt("");
             setWaiting(true);
-            axios.post('http://localhost:8000/chatbot', { message:prompt })
+            console.log("Sending message:", prompt); // For debugging
+            axios.post('http://localhost:8000/chatbot/', { message: prompt }) // Ensure the message is sent correctly
                 .then(response => {
+                    console.log("Response:", response.data); // For debugging
                     const botMessage = {
                         timestamp: new Date().toLocaleTimeString(),
                         sender: 'bot',
-                        content: response.data,
+                        content: response.data.response,
                     };
                     setChatLog(prevChatLog => [...prevChatLog, botMessage]);
                     setWaiting(false);
@@ -59,6 +61,7 @@ function Chatbot() {
                 });
         }
     };
+    
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
