@@ -3,6 +3,7 @@ import axios from "axios";
 import "./login.css";
 import { useAppState } from "../AppStateContext";
 
+
 function Login() {
     const { loggedIn, setLoggedIn } = useAppState();
     const [loginStage, setLoginStage] = useState(0);
@@ -105,15 +106,20 @@ function Login() {
         if (validateInputs()) {
             
             try {
-                const response = await axios.post("http://localhost:8000/createaccount", input);
+                console.log("Sending create account request:", input);
+            
+                const response = await axios.post("http://localhost:8000/createaccount/", input, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    
+                    },
+                });
                 console.log("Account created successfully:", response.data);
                 setSuccessMessage(response.data.message);
                 setLoginStage(4);
             } catch (error) {
                 console.error("Error creating account:", error);
                 setErrors({ accountCreation: error.response?.data?.message || "An error occurred." });
-            } finally {
-                
             }
         } else {
             console.log("Validation failed. Please fix the errors and try again.");
@@ -124,35 +130,30 @@ function Login() {
     const handleLogin = async () => {
         const newLoginErrors = {};
         let isValid = true;
-
-        if(input.username=="test" && input.password=="test")
-        {
-            setLoggedIn(true);
-        }
-
+    
         // Validate inputs
         if (!input.username) {
             newLoginErrors.username = "Username cannot be empty.";
             isValid = false;
         }
-
+    
         if (!input.password) {
             newLoginErrors.password = "Password cannot be empty.";
             isValid = false;
         }
-
+    
         if (!isValid) {
             setLoginErrors(newLoginErrors);
             return;
         }
-
-        
+    
         try {
-            const loginData = {
-                username: input.username,
-                password: input.password,
-            };
-            const response = await axios.post("http://localhost:8000/login", loginData);
+            console.log("Sending login request:", input);
+            const response = await axios.post("http://localhost:8000/login/", input, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             console.log("Login successful:", response.data);
             setSuccessMessage(response.data.message);
             setLoginStage(4);
@@ -160,8 +161,6 @@ function Login() {
         } catch (error) {
             console.error("Error during login:", error);
             setLoginErrors({ login: error.response?.data?.message || "An error occurred." });
-        } finally {
-            
         }
     };
 
