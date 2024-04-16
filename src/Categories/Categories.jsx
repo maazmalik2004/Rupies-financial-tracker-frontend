@@ -13,7 +13,7 @@ function Categories() {
     useAppState();
   const [formOpen, setFormOpen] = useState(false);
   const [categoryForm, setCategoryForm] = useState({
-    type: "Expense",
+    type: "",
     name: "",
     budget: "10000",
   });

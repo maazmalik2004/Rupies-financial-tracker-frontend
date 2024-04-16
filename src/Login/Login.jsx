@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useAppState } from "../AppStateContext";
 import axios from "axios";
 import "./login.css";
-import { useAppState } from "../AppStateContext";
+
 
 function Login() {
-    const { loggedIn, setLoggedIn } = useAppState();
+    const {setLoggedIn} = useAppState();
     const [loginStage, setLoginStage] = useState(0);
     const [input, setInput] = useState({
         username: "",
@@ -16,136 +17,128 @@ function Login() {
         monthlyIncome: "",
         gender: "",
     });
-    const [errors, setErrors] = useState({});
-    const [loginErrors, setLoginErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState("");
+    const [messages,setMessages]=useState([]);
 
-    // Input change handler
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setInput((prevState) => ({
             ...prevState,
             [name]: value,
         }));
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: "",
-        }));
-        setLoginErrors({});
     };
 
-    // Input validation
+    const addMessage = (newMessage) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
     const validateInputs = () => {
         let isValid = true;
-        const newErrors = {};
+        setMessages([]);
 
-        // Validate according to the current stage
         switch (loginStage) {
-            case 1: // Stage 1: Email, Contact, DOB, and Gender
+            case 1:
                 if (!input.email) {
-                    newErrors.email = "Email cannot be empty.";
+                    addMessage("Email cannot be empty");
                     isValid = false;
                 }
                 if (!input.contact) {
-                    newErrors.contact = "Contact cannot be empty.";
+                    addMessage("Contact cannot be empty");
                     isValid = false;
                 }
                 if (!input.dob) {
-                    newErrors.dob = "Date of birth cannot be empty.";
+                    addMessage("Date of birth cannot be empty");
                     isValid = false;
                 }
                 if (!input.gender) {
-                    newErrors.gender = "Gender cannot be empty.";
+                    addMessage("Gender cannot be empty");
                     isValid = false;
                 }
                 break;
-            case 2: // Stage 2: Monthly Income
+            case 2:
                 if (!input.monthlyIncome) {
-                    newErrors.monthlyIncome = "Monthly income cannot be empty.";
+                    addMessage("Monthly income is required");
                     isValid = false;
                 }
                 break;
-            case 3: // Stage 3: Username, Password, and Confirm Password
+            case 3:
                 if (!input.username) {
-                    newErrors.username = "Username cannot be empty.";
+                    addMessage("Username cannot be empty");
                     isValid = false;
                 }
+            
                 if (!input.password) {
-                    newErrors.password = "Password cannot be empty.";
+                    addMessage("Password cannot be empty");
                     isValid = false;
                 }
+            
                 if (!input.confirmPassword) {
-                    newErrors.confirmPassword = "Confirm Password cannot be empty.";
+                    addMessage("Confirm Password cannot be empty");
                     isValid = false;
                 }
+            
                 if (input.password !== input.confirmPassword) {
-                    newErrors.passwordMatch = "Passwords do not match.";
+                    addMessage("Passwords do not match");
                     isValid = false;
                 }
                 break;
         }
 
-        setErrors(newErrors);
         return isValid;
     };
 
-    // Navigation between stages
     const handleNextStageChange = () => {
+        setMessages([]);
         if (validateInputs()) {
             setLoginStage((prevStage) => prevStage + 1);
         }
     };
 
     const handlePrevStageChange = () => {
+        setMessages([]);
         setLoginStage((prevStage) => prevStage - 1);
     };
 
-    // Account creation
     const handleCreateAccount = async () => {
         if (validateInputs()) {
             
             try {
                 const response = await axios.post("http://localhost:8000/createaccount", input);
-                console.log("Account created successfully:", response.data);
-                setSuccessMessage(response.data.message);
-                setLoginStage(4);
+                if(response.data.status && response.data)
+                {
+                    setMessages(["Accout created successfully"]);
+                }
+                else
+                {
+                    setMessages(response.data.message || "Server error");
+                }
             } catch (error) {
-                console.error("Error creating account:", error);
-                setErrors({ accountCreation: error.response?.data?.message || "An error occurred." });
-            } finally {
-                
+                setMessages(["Account creation failed"]);
             }
-        } else {
-            console.log("Validation failed. Please fix the errors and try again.");
         }
     };
 
-    // Login handling
     const handleLogin = async () => {
-        const newLoginErrors = {};
         let isValid = true;
+        setMessages([]);
 
         if(input.username=="test" && input.password=="test")
         {
             setLoggedIn(true);
         }
 
-        // Validate inputs
         if (!input.username) {
-            newLoginErrors.username = "Username cannot be empty.";
+            addMessage("Username cannot be empty");
             isValid = false;
         }
 
         if (!input.password) {
-            newLoginErrors.password = "Password cannot be empty.";
+            addMessage("Password cannot be empty");
             isValid = false;
         }
 
         if (!isValid) {
-            setLoginErrors(newLoginErrors);
             return;
         }
-
         
         try {
             const loginData = {
@@ -153,19 +146,19 @@ function Login() {
                 password: input.password,
             };
             const response = await axios.post("http://localhost:8000/login", loginData);
-            console.log("Login successful:", response.data);
-            setSuccessMessage(response.data.message);
-            setLoginStage(4);
-            setLoggedIn(true);
+            if(response.data && response.data.status)
+            {
+                setLoggedIn(true);
+            }
+            else
+            {
+                setMessages(response.data.message || "Server error");
+            }
         } catch (error) {
-            console.error("Error during login:", error);
-            setLoginErrors({ login: error.response?.data?.message || "An error occurred." });
-        } finally {
-            
+            setMessages(["Login failed"]);
         }
     };
 
-    // Render each login stage
     const renderLoginStage = () => {
         switch (loginStage) {
             case 0:
@@ -180,7 +173,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Username"
                         />
-                        {loginErrors.username && <p className="error-message">{loginErrors.username}</p>}
                         <input
                             type="password"
                             className="input"
@@ -189,14 +181,13 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Password"
                         />
-                        {loginErrors.password && <p className="error-message">{loginErrors.password}</p>}
                         <button type="button" className="button" onClick={handleLogin}>
                             LOG IN
                         </button>
                         <button type="button" className="button" onClick={handleNextStageChange}>
                             SIGN UP
                         </button>
-                        {loginErrors.login && <p className="error-message">{loginErrors.login}</p>}
+                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
                     </div>
                 );
             case 1:
@@ -211,7 +202,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Email"
                         />
-                        {errors.email && <p className="error-message">{errors.email}</p>}
                         <input
                             type="tel"
                             className="input"
@@ -220,7 +210,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Contact"
                         />
-                        {errors.contact && <p className="error-message">{errors.contact}</p>}
                         <input
                             type="date"
                             className="input"
@@ -230,7 +219,6 @@ function Login() {
                             placeholder="Date of birth"
                             max={new Date().toISOString().split("T")[0]}
                         />
-                        {errors.dob && <p className="error-message">{errors.dob}</p>}
                         <select
                             className="input"
                             name="gender"
@@ -242,13 +230,13 @@ function Login() {
                             <option value="female">Female</option>
                             <option value="other">Other</option>
                         </select>
-                        {errors.gender && <p className="error-message">{errors.gender}</p>}
                         <button type="button" className="button" onClick={handleNextStageChange}>
                             NEXT {">"}
                         </button>
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
+                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
                     </div>
                 );
             case 2:
@@ -264,7 +252,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Monthly income"
                         />
-                        {errors.monthlyIncome && <p className="error-message">{errors.monthlyIncome}</p>}
                         <button type="button" className="button" onClick={handleNextStageChange}>
                             NEXT {">"}
                         </button>
@@ -275,6 +262,7 @@ function Login() {
                             CANCEL
                         </button>
                         <p style={{color:"turquoise"}}>User data is protected (lol)</p>
+                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
                     </div>
                 );
             case 3:
@@ -289,7 +277,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Username"
                         />
-                        {errors.username && <p className="error-message">{errors.username}</p>}
                         <input
                             type="password"
                             className="input"
@@ -298,7 +285,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Password"
                         />
-                        {errors.password && <p className="error-message">{errors.password}</p>}
                         <input
                             type="password"
                             className="input"
@@ -307,8 +293,6 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="Confirm password"
                         />
-                        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
-                        {errors.passwordMatch && <p className="error-message">{errors.passwordMatch}</p>}
                         <button type="button" className="button" onClick={handleCreateAccount}>
                             CREATE ACCOUNT
                         </button>
@@ -318,14 +302,15 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
+                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
                     </div>
                 );
             case 4:
                 return (
                     <div className="login">
-                        <h1>{successMessage}</h1>
+                        <h1>WELCOME</h1>
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
-                            GO BACK
+                            BACK TO LOGIN
                         </button>
                     </div>
                 );
@@ -335,10 +320,25 @@ function Login() {
     };
 
     return (
-        <div className="login-container">
-            {renderLoginStage()}
-        </div>
+        <>
+            <img src={require('../logo.png')} alt="Logo" className="loginlogo"/>
+            <img
+    src={require('../bg.png')}
+    alt="Logo"
+    style={{
+        width: '100vw',
+        height: '100vh',
+        objectFit: 'cover',
+        overflow: 'hidden',
+        filter: 'brightness(0.5)'
+    }}
+/>
+            <div className="login-container">
+                {renderLoginStage()}
+            </div>
+        </>
     );
+    
 }
 
 export default Login;

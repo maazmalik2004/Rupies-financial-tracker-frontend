@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useAppState } from "./AppStateContext";
 import "./styles.css";
 import Navbar from "./Navbar/Navbar.jsx";
 import ControlPanel from "./ControlPanel/ControlPanel.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
-import { useAppState } from "./AppStateContext";
 import Form from "./Form/Form";
 import Categories from "./Categories/Categories.jsx";
 import Chatbot from "./Chatbot/Chatbot.jsx";
@@ -11,12 +11,11 @@ import Login from "./Login/Login.jsx";
 
 
 function App() {
-  // Global states
-  const { loggedIn,setLoggedIn } = useAppState();
-  const { selectedTab, setSelectedTab } = useAppState();
-  const { dashboardState, setDashboardState } = useAppState();
+  const { loggedIn} = useAppState();
+  const { selectedTab} = useAppState();
+  const { dashboardState} = useAppState();
   const { income, expense, balance, graphImage } = dashboardState;
-  const { isFormActive, setIsFormActive } = useAppState();
+  const { isFormActive} = useAppState();
 
   if(loggedIn==true)
   {
@@ -28,10 +27,10 @@ function App() {
 
   return (
     <>
-    {!loggedIn && <div><Login/></div>}
+    {!loggedIn && <Login/>}
     {loggedIn && (
     <div className="app">
-    <Chatbot/>
+      <Chatbot/>
       <div className="navbar">
         <Navbar />
       </div>
@@ -53,6 +52,7 @@ function App() {
           </div>
         </>
       )}
+      
       {isFormActive === true && (
         <div className="form-layer">
           <Form className="form" />
@@ -60,7 +60,7 @@ function App() {
       )}
 
       
-          {selectedTab === "categories" &&(<Categories />)}
+      {selectedTab === "categories" && <Categories />}
 
     </div>)}
     </>
