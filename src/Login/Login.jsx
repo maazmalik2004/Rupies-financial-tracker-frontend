@@ -164,7 +164,7 @@ function Login() {
             case 0:
                 return (
                     <div className="login">
-                        <h1 >Welcome</h1>
+                        <h1 >Welcome {input.username}</h1>
                         <input
                             type="text"
                             className="input"
@@ -323,14 +323,14 @@ function Login() {
         <>
             <img src={require('../logo.png')} alt="Logo" className="loginlogo"/>
             <img
-    src={require('../bg.png')}
+    src={require('../bg1.jpeg')}
     alt="Logo"
     style={{
         width: '100vw',
         height: '100vh',
         objectFit: 'cover',
         overflow: 'hidden',
-        filter: 'brightness(0.5)'
+        filter: 'brightness(0.3)'
     }}
 />
             <div className="login-container">

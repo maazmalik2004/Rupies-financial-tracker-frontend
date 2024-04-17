@@ -3,11 +3,12 @@ html{
 }
 
 .app {
+  height:100%;
   display: grid;
   grid-template-columns: minmax(200px, 20%) 80%;
   grid-template-rows: minmax(60px, 10vh) minmax(700px, 85vh);
   gap: 10px;
-  background-color: black;
+  background-color: #1D1D2D;
   min-width: 800px;
 }
 
@@ -15,7 +16,7 @@ html{
 .navbar {
   grid-column: span 2;
   border-radius: 10px;
-  padding:20px;
+  margin-top:20px;
 }
 
 .control-panel {
@@ -23,16 +24,23 @@ html{
   justify-content:baseline;
   align-items: center;
   flex-direction: column;
-  background-color: #1a1a1a;
+  background-color: #1D1D2D;
   border-radius: 10px;
   text-align: center;
   color: white;
+  height:100%;
 }
 
 .dashboard {
-  background-color: #1a1a1a;
+  background-color: #1D1D2D;
   border-radius: 10px;
-  padding: 20px;
+  
+  overflow:scroll;
+  height:100%;
+}
+
+.dashboard::-webkit-scrollbar {
+  display: none;
 }
 
 .categories {

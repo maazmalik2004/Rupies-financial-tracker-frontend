@@ -19,7 +19,7 @@ function App() {
 
   if(loggedIn==true)
   {
-    document.body.style.backgroundColor = "black";
+    document.body.style.backgroundColor = "#1D1D2D";
   }
   else{
     document.body.style.backgroundColor = "turquoise";

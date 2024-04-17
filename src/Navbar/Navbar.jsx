@@ -1,4 +1,3 @@
-//import statements
 import React from "react";
 import "./navbar.css";
 import TabsSegmentedControls from "./TabsSegmentedControls";
@@ -8,12 +7,9 @@ import SwitchControlled from "./SwitchControlled";
 import { useAppState } from "../AppStateContext";
 
 function Navbar() {
-  //global states
   const { selectedTab, setSelectedTab, userTheme, setUserTheme } =
     useAppState();
-  //TabsSegmentedControls attrributes
 
-  //handler function for TabsSegmentedControls
   const handleTabSelect = function (tab) {
     console.log("Selected Tab:", tab);
     setSelectedTab(tab);
@@ -22,10 +18,8 @@ function Navbar() {
   function handleSwitchSelect(newState) {
     setUserTheme(newState);
     console.log(newState);
-    // Perform any other actions based on the new state if needed
   }
 
-  //handler function for profile click
   function handleProfileClick(event) {
     console.log("profile click occurred");
     setSelectedTab("profile");
@@ -34,18 +28,17 @@ function Navbar() {
   //returning component
   return (
     <div className="nav">
-      <div>
         <CustomizableDateModule />
-      </div>
-      <div>
         <TabsSegmentedControls
           tabs={["dashboard", "categories", "about", "help"]}
           onSelect={handleTabSelect}
           currentTab={selectedTab}
         />
-      </div>
       <div className="right">
-        <SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} />
+        {/*<SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} />*/}
+        <div className="navbarverticalflex">
+        <p>Maaz Malik</p>
+        </div>
         <BasicAvatars
           name="Maaz Malik"
           image="https://picsum.photos/200"

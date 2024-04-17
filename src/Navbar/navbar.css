@@ -1,12 +1,37 @@
 .nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  justify-content:first baseline;
+  justify-content: space-between;
   color: white;
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .right {
+  
   display: flex;
   gap: 10px;
+  align-items: center;
+  justify-content: center;
+  height:100%;
+  width:auto;
+}
+
+.navbarverticalflex
+{
+  padding:0px 10px 0px 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  background-color:#27293D ;
+  height:3em;
+  transition:all 0.3s ease-in-out;
+}
+
+.navbarverticalflex:hover
+{
+  background-color: hsl(235, 14%, 35%);
+  transition:all 0.3s ease-in-out;
 }

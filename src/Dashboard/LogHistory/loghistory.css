@@ -1,24 +1,22 @@
 .log-history {
   display: flex;
   flex-direction: column;
-  background-color: #333333;
-
-  height: 90%;
-  width: 90%;
-
+  background-color: #27293D;
+  height: 100%;
+  width: 100%;
   border-radius: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
   align-items: center;
-  padding: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
-  box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  box-shadow: inset 0px -10px 15px -5px rgba(0, 0, 0, 0.5), /* Inner shadow at the bottom */
+              inset 0px 10px 15px -5px rgba(0, 0, 0, 0.5); /* Inner shadow at the top */
 }
 
 .log {
   display: grid;
-  gap: 10px;
-  grid-template-columns: 2fr 1fr 1fr 1fr; /* Removed commas between columns */
-  grid-template-rows: 1fr 1fr; /* Removed commas between rows */
+  gap: 5px;
+  grid-template-columns: 2fr 1fr 1fr 1fr; 
+  grid-template-rows: 1fr 1fr;
   align-items: center;
   justify-content: center;
   background-color: #222222;

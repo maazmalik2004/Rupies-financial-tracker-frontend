@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
-
 import LogHistory from "./LogHistory/LogHistory";
+import Graph from "./Graph";
+import { ZAxis } from "recharts";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
   return (
@@ -20,11 +21,36 @@ const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
         <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
         </div>
       <div className="graph">
-        <img src={graphImageUrl} alt="Graph" className="graph-image" />
+        {/*<img src={graphImageUrl} alt="Graph" className="graph-image" />*/}
+        <Graph/>
       </div>
       <div className="card">
         <LogHistory />
       </div>
+      <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
+        <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
+        <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
+        <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
+        <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
+        <div className="card">
+      <p>BALANCE</p>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        </div>
     </div>
   );
 };

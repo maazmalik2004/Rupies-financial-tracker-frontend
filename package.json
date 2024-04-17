@@ -5,17 +5,18 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
+    "@emotion/react": "11.11.3",
+    "@emotion/styled": "11.11.0",
+    "@mui/icons-material": "5.15.10",
+    "@mui/joy": "5.0.0-beta.27",
+    "@mui/material": "5.15.9",
+    "@mui/x-date-pickers": "6.19.4",
+    "axios": "1.6.7",
+    "dayjs": "1.11.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-scripts": "5.0.1",
-    "@mui/joy": "5.0.0-beta.27",
-    "@emotion/react": "11.11.3",
-    "@emotion/styled": "11.11.0",
-    "@mui/material": "5.15.9",
-    "axios": "1.6.7",
-    "dayjs": "1.11.10",
-    "@mui/x-date-pickers": "6.19.4",
-    "@mui/icons-material": "5.15.10"
+    "recharts": "^2.12.5"
   },
   "devDependencies": {
     "@types/react": "18.2.38",
