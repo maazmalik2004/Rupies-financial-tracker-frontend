@@ -63,19 +63,19 @@ function Login() {
                 email: input.email,
             };
             const response = await axios.post("http://localhost:8000/check", loginData);
-            console.log(response.data);
             if(response.data && response.data.status)
             {
-                setMessages(response.data.message || "GG");
-                return response.data.unique;
+                setMessages(response.data.message || "");
+                return response.data.unique || true;
             }
             else
             {
                 setMessages(response.data.message || "Server error");
-                return response.data.unique;
+                return response.data.unique || true;
             }
         } catch (error) {
             setMessages(["Server Error"]);
+            return false;
         }
     }
 
@@ -88,30 +88,34 @@ function Login() {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
-    const validateInputs = () => {
+    const validateInputs = async () => {
         let isValid = true;
         setMessages([]);
 
         switch (loginStage) {
             case 1:
-            if (!input.email) 
-            {
+            const isUnique = await checkifunique(); // Check if the email and contact are unique
+            if (!isUnique || !validateEmail(input.email) || input.contact.length !=10) {
+                isValid = false;
+                addMessage("Invalid Email or contact");
+            }
+            if (!input.email) {
                 addMessage("Email cannot be empty");
                 isValid = false;
             }
-                if (!input.contact) {
-                    addMessage("Contact cannot be empty");
-                    isValid = false;
-                }
-                if (!input.dob) {
-                    addMessage("Date of birth cannot be empty");
-                    isValid = false;
-                }
-                if (!input.gender) {
-                    addMessage("Gender cannot be empty");
-                    isValid = false;
-                }
-                break;
+            if (!input.contact) {
+                addMessage("Contact cannot be empty");
+                isValid = false;
+            }
+            if (!input.dob) {
+                addMessage("Date of birth cannot be empty");
+                isValid = false;
+            }
+            if (!input.gender) {
+                addMessage("Gender cannot be empty");
+                isValid = false;
+            }
+            break;
             case 2:
                 if (!input.monthlyIncome) {
                     addMessage("Monthly income is required");
@@ -144,12 +148,14 @@ function Login() {
         return isValid;
     };
 
-    const handleNextStageChange = () => {
+    const handleNextStageChange = async () => {
         setMessages([]);
-        if (validateInputs()) {
+        const isValid = await validateInputs(); 
+        if (isValid) {
             setLoginStage((prevStage) => prevStage + 1);
         }
     };
+    
 
     const handlePrevStageChange = () => {
         setMessages([]);
