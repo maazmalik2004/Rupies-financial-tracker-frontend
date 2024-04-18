@@ -26,7 +26,20 @@ function Login() {
             ...prevState,
             [name]: value,
         }));
+        if (name === 'email') {
+            if(validateEmail(value))
+            {
+            checkifunique();
+            }
+        }
+        if (name === 'contact') {
+            if(value.length==10)
+            {
+            checkifunique();
+            }
+        }
     };
+    
 
     async function checkifunique()
     {
@@ -36,6 +49,7 @@ function Login() {
                 email: input.email,
             };
             const response = await axios.post("http://localhost:8000/check", loginData);
+            console.log(response.data);
             if(response.data && response.data.status)
             {
                 setMessages(response.data.message || "GG");
@@ -66,27 +80,10 @@ function Login() {
 
         switch (loginStage) {
             case 1:
-                if (!input.email) {
-                    addMessage("Email cannot be empty");
-                    isValid = false;
-                }
-                
-            if(validateEmail(input.email)==false)
+            if (!input.email) 
             {
-                addMessage("Invalid Email");
-            }
-            else
-            {
-                checkifunique();
-            }
-        
-            if(input.contact.length!=10)
-            {
-                addMessage("Invalid Contact");
-            }
-            else
-            {
-                checkifunique();
+                addMessage("Email cannot be empty");
+                isValid = false;
             }
                 if (!input.contact) {
                     addMessage("Contact cannot be empty");
@@ -254,7 +251,7 @@ function Login() {
                             className="input"
                             name="contact"
                             value={input.contact}
-                            onChange={()=>{handleInputChange}}
+                            onChange={handleInputChange}
                             placeholder="Contact"
                         />
                         <input
