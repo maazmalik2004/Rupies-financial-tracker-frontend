@@ -20,12 +20,41 @@ function Login() {
     const [messages,setMessages]=useState([]);
 
     const handleInputChange = (event) => {
+        setMessages([]);
         const { name, value } = event.target;
         setInput((prevState) => ({
             ...prevState,
             [name]: value,
         }));
     };
+
+    async function checkifunique()
+    {
+        try {
+            const loginData = {
+                contact: input.contact,
+                email: input.email,
+            };
+            const response = await axios.post("http://localhost:8000/check", loginData);
+            if(response.data && response.data.status)
+            {
+                setMessages(response.data.message || "GG");
+                return response.data.unique;
+            }
+            else
+            {
+                setMessages(response.data.message || "Server error");
+                return response.data.unique;
+            }
+        } catch (error) {
+            setMessages(["Server Error"]);
+        }
+    }
+
+    function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
 
     const addMessage = (newMessage) => {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -41,6 +70,24 @@ function Login() {
                     addMessage("Email cannot be empty");
                     isValid = false;
                 }
+                
+            if(validateEmail(input.email)==false)
+            {
+                addMessage("Invalid Email");
+            }
+            else
+            {
+                checkifunique();
+            }
+        
+            if(input.contact.length!=10)
+            {
+                addMessage("Invalid Contact");
+            }
+            else
+            {
+                checkifunique();
+            }
                 if (!input.contact) {
                     addMessage("Contact cannot be empty");
                     isValid = false;
@@ -207,7 +254,7 @@ function Login() {
                             className="input"
                             name="contact"
                             value={input.contact}
-                            onChange={handleInputChange}
+                            onChange={()=>{handleInputChange}}
                             placeholder="Contact"
                         />
                         <input
