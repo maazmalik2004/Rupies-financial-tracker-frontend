@@ -19,28 +19,42 @@ function Login() {
     });
     const [messages,setMessages]=useState([]);
 
-    const handleInputChange = (event) => {
+    const handleInputChange = async (event) => {
         setMessages([]);
         const { name, value } = event.target;
         setInput((prevState) => ({
             ...prevState,
             [name]: value,
         }));
+    
         if (name === 'email') {
-            if(validateEmail(value))
+            if (validateEmail(value)) {
+                try {
+                    await checkifunique();
+                } catch (error) {
+                    console.error('Error checking uniqueness:', error);
+                }
+            }
+            else
             {
-            checkifunique();
+                setMessages(["Invalid Email"]);
             }
         }
         if (name === 'contact') {
-            if(value.length==10)
+            if (value.length === 10) {
+                try {
+                    await checkifunique();
+                } catch (error) {
+                    console.error('Error checking uniqueness:', error);
+                }
+            }
+            else
             {
-            checkifunique();
+                setMessages(["Invalid Contact"]);
             }
         }
     };
     
-
     async function checkifunique()
     {
         try {
