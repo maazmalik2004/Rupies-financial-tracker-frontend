@@ -62,16 +62,15 @@ function Login() {
                 contact: input.contact,
                 email: input.email,
             };
-            const response = await axios.post("http://localhost:8000/check", loginData);
+            const response = await axios.post("http://localhost:8000/check/", loginData);
             if(response.data && response.data.status)
             {
-                setMessages(response.data.message || "");
+                setMessages([response.data.message || ""]);
                 return response.data.unique || true;
             }
             else
             {
-                setMessages(response.data.message || "Server error");
-                return response.data.unique || true;
+                setMessages([response.data.message || "Server error"]);
             }
         } catch (error) {
             setMessages(["Server Error"]);
@@ -166,7 +165,7 @@ function Login() {
         if (validateInputs()) {
             
             try {
-                const response = await axios.post("http://localhost:8000/createaccount", input);
+                const response = await axios.post("http://localhost:8000/signup/", input);
                 if(response.data.status && response.data)
                 {
                     setMessages(["Accout created successfully"]);
