@@ -3,9 +3,8 @@ import { useAppState } from "../AppStateContext";
 import axios from "axios";
 import "./login.css";
 
-
 function Login() {
-    const {setLoggedIn} = useAppState();
+    const { setLoggedIn } = useAppState();
     const [loginStage, setLoginStage] = useState(0);
     const [input, setInput] = useState({
         username: "",
@@ -17,7 +16,7 @@ function Login() {
         monthlyIncome: "",
         gender: "",
     });
-    const [messages,setMessages]=useState([]);
+    const [messages, setMessages] = useState([]);
 
     const handleInputChange = async (event) => {
         setMessages([]);
@@ -26,50 +25,42 @@ function Login() {
             ...prevState,
             [name]: value,
         }));
-    
-        if (name === 'email') {
+
+        if (name === "email") {
             if (validateEmail(value)) {
                 try {
                     await checkifunique();
                 } catch (error) {
-                    console.error('Error checking uniqueness:', error);
+                    console.error("Error checking uniqueness:", error);
                 }
-            }
-            else
-            {
+            } else {
                 setMessages(["Invalid Email"]);
             }
         }
-        if (name === 'contact') {
+        if (name === "contact") {
             if (value.length === 10) {
                 try {
                     await checkifunique();
                 } catch (error) {
-                    console.error('Error checking uniqueness:', error);
+                    console.error("Error checking uniqueness:", error);
                 }
-            }
-            else
-            {
+            } else {
                 setMessages(["Invalid Contact"]);
             }
         }
     };
-    
-    async function checkifunique()
-    {
+
+    async function checkifunique() {
         try {
             const loginData = {
                 contact: input.contact,
                 email: input.email,
             };
             const response = await axios.post("http://localhost:8000/check/", loginData);
-            if(response.data && response.data.status)
-            {
+            if (response.data && response.data.status) {
                 setMessages([response.data.message || ""]);
                 return response.data.unique || true;
-            }
-            else
-            {
+            } else {
                 setMessages([response.data.message || "Server error"]);
             }
         } catch (error) {
@@ -93,28 +84,28 @@ function Login() {
 
         switch (loginStage) {
             case 1:
-            const isUnique = await checkifunique(); // Check if the email and contact are unique
-            if (!isUnique || !validateEmail(input.email) || input.contact.length !=10) {
-                isValid = false;
-                addMessage("Invalid Email or contact");
-            }
-            if (!input.email) {
-                addMessage("Email cannot be empty");
-                isValid = false;
-            }
-            if (!input.contact) {
-                addMessage("Contact cannot be empty");
-                isValid = false;
-            }
-            if (!input.dob) {
-                addMessage("Date of birth cannot be empty");
-                isValid = false;
-            }
-            if (!input.gender) {
-                addMessage("Gender cannot be empty");
-                isValid = false;
-            }
-            break;
+                const isUnique = await checkifunique(); // Check if the email and contact are unique
+                if (!isUnique || !validateEmail(input.email) || input.contact.length !== 10) {
+                    isValid = false;
+                    addMessage("Invalid Email or contact");
+                }
+                if (!input.email) {
+                    addMessage("Email cannot be empty");
+                    isValid = false;
+                }
+                if (!input.contact) {
+                    addMessage("Contact cannot be empty");
+                    isValid = false;
+                }
+                if (!input.dob) {
+                    addMessage("Date of birth cannot be empty");
+                    isValid = false;
+                }
+                if (!input.gender) {
+                    addMessage("Gender cannot be empty");
+                    isValid = false;
+                }
+                break;
             case 2:
                 if (!input.monthlyIncome) {
                     addMessage("Monthly income is required");
@@ -126,17 +117,17 @@ function Login() {
                     addMessage("Username cannot be empty");
                     isValid = false;
                 }
-            
+
                 if (!input.password) {
                     addMessage("Password cannot be empty");
                     isValid = false;
                 }
-            
+
                 if (!input.confirmPassword) {
                     addMessage("Confirm Password cannot be empty");
                     isValid = false;
                 }
-            
+
                 if (input.password !== input.confirmPassword) {
                     addMessage("Passwords do not match");
                     isValid = false;
@@ -149,12 +140,11 @@ function Login() {
 
     const handleNextStageChange = async () => {
         setMessages([]);
-        const isValid = await validateInputs(); 
+        const isValid = await validateInputs();
         if (isValid) {
             setLoginStage((prevStage) => prevStage + 1);
         }
     };
-    
 
     const handlePrevStageChange = () => {
         setMessages([]);
@@ -163,16 +153,12 @@ function Login() {
 
     const handleCreateAccount = async () => {
         if (validateInputs()) {
-            
             try {
                 const response = await axios.post("http://localhost:8000/signup/", input);
-                if(response.data.status && response.data)
-                {
-                    setMessages(["Accout created successfully"]);
-                }
-                else
-                {
-                    setMessages(response.data.message || "Server error");
+                if (response.data.status && response.data) {
+                    setMessages(["Account created successfully"]);
+                } else {
+                    setMessages([response.data.message || "Server error"]);
                 }
             } catch (error) {
                 setMessages(["Account creation failed"]);
@@ -184,10 +170,9 @@ function Login() {
         let isValid = true;
         setMessages([]);
 
-        if(input.username=="test" && input.password=="test")
-        {
+      
             setLoggedIn(true);
-        }
+        
 
         if (!input.username) {
             addMessage("Username cannot be empty");
@@ -202,20 +187,17 @@ function Login() {
         if (!isValid) {
             return;
         }
-        
+
         try {
             const loginData = {
                 username: input.username,
                 password: input.password,
             };
             const response = await axios.post("http://localhost:8000/login", loginData);
-            if(response.data && response.data.status)
-            {
+            if (response.data && response.data.status) {
                 setLoggedIn(true);
-            }
-            else
-            {
-                setMessages(response.data.message || "Server error");
+            } else {
+                setMessages([response.data.message || "Server error"]);
             }
         } catch (error) {
             setMessages(["Login failed"]);
@@ -227,7 +209,7 @@ function Login() {
             case 0:
                 return (
                     <div className="login">
-                        <h1 >Welcome {input.username}</h1>
+                        <h1>Welcome {input.username}</h1>
                         <input
                             type="text"
                             className="input"
@@ -250,7 +232,9 @@ function Login() {
                         <button type="button" className="button" onClick={handleNextStageChange}>
                             SIGN UP
                         </button>
-                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
+                        {messages.map((message, index) => (
+                            <p key={index}>{message}</p>
+                        ))}
                     </div>
                 );
             case 1:
@@ -299,14 +283,18 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
-                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
+                        {messages.map((message, index) => (
+                            <p key={index}>{message}</p>
+                        ))}
                     </div>
                 );
             case 2:
                 return (
                     <div className="login">
                         <h1>2 / 3</h1>
-                        <p style={{color:"turquoise"}}>Income is used for personalization purposes, </p>
+                        <p style={{ color: "turquoise" }}>
+                            Income is used for personalization purposes,{" "}
+                        </p>
                         <input
                             type="number"
                             className="input"
@@ -324,8 +312,10 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
-                        <p style={{color:"turquoise"}}>User data is protected (lol)</p>
-                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
+                        <p style={{ color: "turquoise" }}>User data is protected (lol)</p>
+                        {messages.map((message, index) => (
+                            <p key={index}>{message}</p>
+                        ))}
                     </div>
                 );
             case 3:
@@ -365,7 +355,9 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
-                        {messages.map((message, index) => (<p key={index}>{message}</p>))}
+                        {messages.map((message, index) => (
+                            <p key={index}>{message}</p>
+                        ))}
                     </div>
                 );
             case 4:
@@ -384,24 +376,21 @@ function Login() {
 
     return (
         <>
-            <img src={require('../logo.png')} alt="Logo" className="loginlogo"/>
+            <img src={require("../logo.png")} alt="Logo" className="loginlogo" />
             <img
-    src={require('../bg1.jpeg')}
-    alt="Logo"
-    style={{
-        width: '100vw',
-        height: '100vh',
-        objectFit: 'cover',
-        overflow: 'hidden',
-        filter: 'brightness(0.3)'
-    }}
-/>
-            <div className="login-container">
-                {renderLoginStage()}
-            </div>
+                src={require("../bg1.jpeg")}
+                alt="Logo"
+                style={{
+                    width: "100vw",
+                    height: "100vh",
+                    objectFit: "cover",
+                    overflow: "hidden",
+                    filter: "brightness(0.3)",
+                }}
+            />
+            <div className="login-container">{renderLoginStage()}</div>
         </>
     );
-    
 }
 
 export default Login;

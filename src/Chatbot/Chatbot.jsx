@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import "./chatbot.css";
 
 function Chatbot() {
-    const [prompt, setPrompt] = useState("");
+    const [message, setPrompt] = useState("");
     const [chatLog, setChatLog] = useState([
         {
             timestamp: new Date().toLocaleTimeString(),
@@ -30,21 +30,21 @@ function Chatbot() {
     }, [chatLog]);
     
     const sendMessage = () => {
-        if (prompt && !waiting) {
+        if (message && !waiting) {
             const newMessage = {
                 timestamp: new Date().toLocaleTimeString(),
                 sender: 'user',
-                content: prompt,
+                content: message,
             };
             setChatLog(prevChatLog => [...prevChatLog, newMessage]);
             setPrompt("");
             setWaiting(true);
-            axios.post('http://localhost:8000/chatbot', { prompt })
+            axios.post('http://localhost:8000/chatbot', { message })
                 .then(response => {
                     const botMessage = {
                         timestamp: new Date().toLocaleTimeString(),
                         sender: 'bot',
-                        content: response.data,
+                        content: response.data.response,
                     };
                     setChatLog(prevChatLog => [...prevChatLog, botMessage]);
                     setWaiting(false);
@@ -84,7 +84,7 @@ function Chatbot() {
                     </div>
                     <input 
                         className="promptbox" 
-                        value={prompt} 
+                        value={message} 
                         onChange={(e) => setPrompt(e.target.value)} 
                         onKeyPress={handleKeyPress}  
                     />
