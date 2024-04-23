@@ -195,6 +195,10 @@ function Login() {
             };
             const response = await axios.post("http://localhost:8000/login", loginData);
             if (response.data && response.data.status) {
+                console.log(response.data.token);
+                sessionStorage.setItem('token', response.data.token);
+                console.log(sessionStorage.getItem('token'));
+                addTokenInterceptor(sessionStorage.getItem('token'));
                 setLoggedIn(true);
             } else {
                 setMessages([response.data.message || "Server error"]);
@@ -203,6 +207,20 @@ function Login() {
             setMessages(["Login failed"]);
         }
     };
+
+    const addTokenInterceptor = (token) => {
+        axios.interceptors.request.use(
+          (config) => {
+            if (token) {
+              config.headers['Authorization'] = `${token}`;
+            }
+            return config;
+          },
+          (error) => {
+            return Promise.reject(error);
+          }
+        );
+      };
 
     const renderLoginStage = () => {
         switch (loginStage) {
