@@ -9,8 +9,19 @@ import CloseIcon from '@mui/icons-material/Close';
 function ControlPanel() {
   const { isFormActive, setIsFormActive } = useAppState();
   const { dashboardState, setDashboardState } = useAppState();
-  const [isFilterActive, setIsFilterActive] = useState(false); // State to track filter icon click
+  const [isFilterActive, setIsFilterActive] = useState(false); 
   const {formState, setFormState}=useAppState();
+
+  const fetchDataAndStoreInSessionStorage = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/graph', formState);
+      sessionStorage.setItem('graphData',response.data);
+      console.log('Data stored in session storage:', sessionStorage.get('graphData'));
+    } catch (error) {
+      console.log("in error block");
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleButtonClick = () => {
     setIsFormActive(!isFormActive);
@@ -32,7 +43,8 @@ const handleChange = (event) => {
 // Handle form submission
 const handleSubmit = async (event) => {
   event.preventDefault(); // Prevent default form submission
-
+  fetchDataAndStoreInSessionStorage();
+  /*
   try {
       // Define the URL for the POST request
       const url = 'http://localhost:8000/filter';
@@ -60,41 +72,11 @@ const handleSubmit = async (event) => {
       console.error("Error fetching data:", error);
       alert("Error applying filters! Please try again later.");
   }
+  */
 };
 
 useEffect(() => {
-  const fetchData = async () => {
-      try {
-          // Define the URL for the POST request
-          const url = 'http://localhost:8000/filter';
-          
-          // Make a POST request with formState as the request body
-          const response = await axios.post(url, formState);
-          
-          // Check the response and update the dashboard state with the received data
-          if (response && response.data) {
-              const data = response.data;
-
-              // Convert base64 image data to the desired format
-              const base64String = data.imageUrlBase64.split(",")[1];
-              const imageDataURL = `data:image/png;base64,${base64String}`;
-              
-              // Update dashboard state with received data
-              setDashboardState({
-                  income: data.income,
-                  expense: data.expense,
-                  balance: data.balance,
-                  graphImage: imageDataURL, // Set graphImage using the converted base64 image data
-              });
-          }
-      } catch (error) {
-          console.error("Error fetching data:", error);
-          alert("Error applying filters! Please try again later.");
-      }
-  };
-
-  // Call the fetchData function
-  fetchData();
+  fetchDataAndStoreInSessionStorage();
 }, [formState]);
 
   return (

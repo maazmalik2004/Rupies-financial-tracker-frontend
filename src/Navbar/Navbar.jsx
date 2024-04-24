@@ -37,10 +37,10 @@ function Navbar() {
       <div className="right">
         {/*<SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} />*/}
         <div className="navbarverticalflex">
-        <p>Maaz Malik</p>
+        <p>{sessionStorage.getItem('username')}</p>
         </div>
         <BasicAvatars
-          name="Maaz Malik"
+          name={sessionStorage.getItem('username')}
           image="https://picsum.photos/200"
           onClick={handleProfileClick}
         />

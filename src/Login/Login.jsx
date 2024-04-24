@@ -195,8 +195,10 @@ function Login() {
             };
             const response = await axios.post("http://localhost:8000/login", loginData);
             if (response.data && response.data.status) {
+                console.log(response.data);
                 console.log(response.data.token);
                 sessionStorage.setItem('token', response.data.token);
+                sessionStorage.setItem('username', loginData.username);
                 console.log(sessionStorage.getItem('token'));
                 addTokenInterceptor(sessionStorage.getItem('token'));
                 setLoggedIn(true);

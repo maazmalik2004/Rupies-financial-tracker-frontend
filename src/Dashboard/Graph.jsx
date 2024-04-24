@@ -1,32 +1,58 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { useAppState } from "../AppStateContext";
+
 
 const data = [
-  { month: 'January', income: 4000, expense: 2000 },
-  { month: 'February', income: 3000, expense: 1500 },
-  { month: 'March', income: 3500, expense: 1800 },
-  { month: 'April', income: 4000, expense: 2500 },
-  { month: 'May', income: 4500, expense: 2200 },
-  { month: 'June', income: 4800, expense: 2600 },
-  { month: 'July', income: 5000, expense: 3000 },
+  { type: 'income', category: 'Rent', amount: 2000 },
+  { type: 'expense', category: 'Rent', amount: 1000 },
+  { type: 'income', category: 'Groceries', amount: 1000 },
+  { type: 'expense', category: 'Groceries', amount: 500 },
+  { type: 'income', category: 'Entertainment', amount: 500 },
+  { type: 'expense', category: 'Entertainment', amount: 200 },
+  { type: 'income', category: 'Transportation', amount: 800 },
+  { type: 'expense', category: 'Transportation', amount: 300 },
+  { type: 'income', category: 'Utilities', amount: 1200 },
+  { type: 'expense', category: 'Utilities', amount: 700 },
+  { type: 'income', category: 'Dining Out', amount: 600 },
+  { type: 'expense', category: 'Dining Out', amount: 400 },
+  { type: 'income', category: 'Shopping', amount: 1500 },
+  { type: 'expense', category: 'Shopping', amount: 1000 },
+  // Add more data points as needed...
 ];
 
-const Graph = () => {
+const HorizontalStackedBarChart = () => {
+  const {formState, setFormState}=useAppState();
+  
+  const groupedData = data.reduce((acc, curr) => {
+    const { type, category, amount } = curr;
+    if (!acc[category]) {
+      acc[category] = { category, income: 0, expense: 0 };
+    }
+    acc[category][type] += amount;
+    return acc;
+  }, {});
+
+  // Convert grouped data into an array of objects
+  const chartData = Object.values(groupedData);
+
   return (
-<div style={{ width: '100%', height: '400px', position: 'relative', zIndex: '0' }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Area type="monotone" dataKey="income" stroke="#82ca9d" fill="#82ca9d" />
-          <Area type="monotone" dataKey="expense" stroke="#ff4f4f" fill="#ff4f4f" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
+    <BarChart
+      width={800}
+      height={400}
+      data={chartData}
+      layout="vertical"
+      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis type="number" />
+      <YAxis dataKey="category" type="category" />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="income" stackId="stack" fill="#82ca9d" />
+      <Bar dataKey="expense" stackId="stack" fill="#ff4f4f" />
+    </BarChart>
   );
 };
 
-export default Graph;
+export default HorizontalStackedBarChart;
