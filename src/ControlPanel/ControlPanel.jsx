@@ -14,9 +14,10 @@ function ControlPanel() {
 
   const fetchDataAndStoreInSessionStorage = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/graph', formState);
+      const requeststring=formState//JSON.stringify(formState);
+      const response = await axios.post('http://localhost:8000/graph/',requeststring);
       sessionStorage.setItem('graphData',response.data);
-      console.log('Data stored in session storage:', sessionStorage.get('graphData'));
+      console.log('Data stored in session storage:', sessionStorage.getItem('graphData'));
     } catch (error) {
       console.log("in error block");
       console.error('Error fetching data:', error);
