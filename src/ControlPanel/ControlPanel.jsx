@@ -16,8 +16,10 @@ function ControlPanel() {
     try {
       const requeststring=formState//JSON.stringify(formState);
       const response = await axios.post('http://localhost:8000/graph/',requeststring);
-      sessionStorage.setItem('graphData',response.data);
-      console.log('Data stored in session storage:', sessionStorage.getItem('graphData'));
+      sessionStorage.setItem('graphData', JSON.stringify(response.data));
+const storedData = JSON.parse(sessionStorage.getItem('graphData'));
+console.log('Data stored in session storage:', storedData);
+
     } catch (error) {
       console.log("in error block");
       console.error('Error fetching data:', error);
