@@ -10,15 +10,15 @@ const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
     <div className="dashboard-container">
       <div className="card">
         <p>INCOME</p>
-        <h1 style={{color:"green"}}> ₹ {income}</h1>
+        <h1 style={{color:"green"}}> ₹ {sessionStorage.getItem('dashboardIncome')}</h1>
       </div>
       <div className="card">
       <p>EXPENSE</p>
-      <h1 style={{color:"red"}}> ₹ {expense}</h1>
+      <h1 style={{color:"red"}}> ₹ {sessionStorage.getItem('dashboardExpense')}</h1>
       </div>
       <div className="card">
       <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
+        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {sessionStorage.getItem('dashboardBalance')}</h1>
         </div>
       <div className="graph">
         {/*<img src={graphImageUrl} alt="Graph" className="graph-image" />*/}
