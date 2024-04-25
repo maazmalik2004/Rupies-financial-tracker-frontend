@@ -11,6 +11,7 @@ const PieChartComponent = () => {
       const totalIncome = calculateTotalIncome(graphData.data);
       const totalExpense = calculateTotalExpense(graphData.data);
       const balance = calculateBalance(totalIncome, totalExpense);
+
       
       sessionStorage.setItem('dashboardIncome', totalIncome);
       sessionStorage.setItem('dashboardExpense', totalExpense);

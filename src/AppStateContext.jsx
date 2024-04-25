@@ -49,11 +49,18 @@ const [formState, setFormState] = useState(() => {
       };
 });
 
-const [graphData, setGraphData]=useState();
-
 useEffect(() => {
   sessionStorage.setItem('formState', JSON.stringify(formState));
 }, [formState]);
+
+const [graphData, setGraphData] = useState(() => {
+  const storedGraphData = sessionStorage.getItem('graphData');
+  return storedGraphData ? JSON.parse(storedGraphData) : null;
+});
+
+useEffect(() => {
+  sessionStorage.setItem('graphData', JSON.stringify(graphData));
+}, [graphData]);
 
   return (
     <AppStateContext.Provider
