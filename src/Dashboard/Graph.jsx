@@ -40,7 +40,6 @@ const PieChartComponent = () => {
     return totalIncome - totalExpense;
   };
   
-  // Group data by category and calculate total amount for each category
   const groupDataByCategory = (data) => {
     return data.reduce((acc, curr) => {
       const { category, amount } = curr;
