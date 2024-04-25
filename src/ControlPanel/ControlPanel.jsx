@@ -11,14 +11,14 @@ function ControlPanel() {
   const { dashboardState, setDashboardState } = useAppState();
   const [isFilterActive, setIsFilterActive] = useState(false); 
   const {formState, setFormState}=useAppState();
+  const {graphData,setGraphData}=useAppState();
 
   const fetchDataAndStoreInSessionStorage = async () => {
     try {
       const requeststring=formState//JSON.stringify(formState);
       const response = await axios.post('http://localhost:8000/graph/',requeststring);
-      sessionStorage.setItem('graphData', JSON.stringify(response.data));
-const storedData = JSON.parse(sessionStorage.getItem('graphData'));
-console.log('Data stored in session storage:', storedData);
+      setGraphData(response.data);
+      console.log(graphData);
 
     } catch (error) {
       console.log("in error block");

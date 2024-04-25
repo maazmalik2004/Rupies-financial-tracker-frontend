@@ -49,6 +49,8 @@ const [formState, setFormState] = useState(() => {
       };
 });
 
+const [graphData, setGraphData]=useState();
+
 useEffect(() => {
   sessionStorage.setItem('formState', JSON.stringify(formState));
 }, [formState]);
@@ -65,6 +67,7 @@ useEffect(() => {
         expenseSources,setExpenseSources,
         loggedIn,setLoggedIn,
         formState, setFormState,
+        graphData, setGraphData,
       }}
     >
       {children}

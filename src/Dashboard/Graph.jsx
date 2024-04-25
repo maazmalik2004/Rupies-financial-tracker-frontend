@@ -1,59 +1,69 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { useAppState } from "../AppStateContext";
 
 const PieChartComponent = () => {
-  const { formState, setFormState } = useAppState();
-
-  // Retrieve data from session storage
-  const sessionData = JSON.parse(sessionStorage.getItem('graphData'));
-
-  // Extract transaction data from session data
-  const data = sessionData.data;
-
-  // Calculate sum of all incomes and sum of all expenses
-  const totalIncome = data.reduce((acc, curr) => {
-    if (curr.type === 'income') {
-      return acc + parseFloat(curr.amount);
-    }
-    return acc;
-  }, 0);
-
-  const totalExpense = data.reduce((acc, curr) => {
-    if (curr.type === 'expense') {
-      return acc + parseFloat(curr.amount);
-    }
-    return acc;
-  }, 0);
-
-  // Calculate balance (total income - total expense)
-  const balance = totalIncome - totalExpense;
-
-  // Store calculated values as session variables
+  const { graphData } = useAppState();
+  
+  // Calculate totalIncome, totalExpense, and balance
   useEffect(() => {
-    sessionStorage.setItem('dashboardIncome', totalIncome);
-    sessionStorage.setItem('dashboardExpense', totalExpense);
-    sessionStorage.setItem('dashboardBalance', balance);
-  }, [totalIncome, totalExpense, balance]);
-
-  // Group data by category and calculate total amount for each category
-  const groupedData = data.reduce((acc, curr) => {
-    const { category, amount } = curr;
-    if (!acc[category]) {
-      acc[category] = 0;
+    if (graphData) {
+      const totalIncome = calculateTotalIncome(graphData.data);
+      const totalExpense = calculateTotalExpense(graphData.data);
+      const balance = calculateBalance(totalIncome, totalExpense);
+      
+      sessionStorage.setItem('dashboardIncome', totalIncome);
+      sessionStorage.setItem('dashboardExpense', totalExpense);
+      sessionStorage.setItem('dashboardBalance', balance);
     }
-    acc[category] += parseFloat(amount);
-    return acc;
-  }, {});
+  }, [graphData]);
 
-  // Convert grouped data into an array of objects
-  const chartData = Object.keys(groupedData).map(category => ({
-    category,
-    amount: groupedData[category],
-  }));
+  const calculateTotalIncome = (data) => {
+    return data.reduce((acc, curr) => {
+      if (curr.type === 'income') {
+        return acc + parseFloat(curr.amount);
+      }
+      return acc;
+    }, 0);
+  };
+  
+  const calculateTotalExpense = (data) => {
+    return data.reduce((acc, curr) => {
+      if (curr.type === 'expense') {
+        return acc + parseFloat(curr.amount);
+      }
+      return acc;
+    }, 0);
+  };
+  
+  const calculateBalance = (totalIncome, totalExpense) => {
+    return totalIncome - totalExpense;
+  };
+  
+  // Group data by category and calculate total amount for each category
+  const groupDataByCategory = (data) => {
+    return data.reduce((acc, curr) => {
+      const { category, amount } = curr;
+      if (!acc[category]) {
+        acc[category] = 0;
+      }
+      acc[category] += parseFloat(amount);
+      return acc;
+    }, {});
+  };
+  
+  const convertGroupedDataToArray = (groupedData) => {
+    return Object.keys(groupedData).map(category => ({
+      category,
+      amount: groupedData[category],
+    }));
+  };
 
   // Define colors for the pie chart
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#19A0FF', '#FF197F'];
+
+  // Calculate chart data based on graphData
+  const chartData = graphData ? convertGroupedDataToArray(groupDataByCategory(graphData.data)) : [];
 
   return (
     <PieChart width={400} height={400}>
