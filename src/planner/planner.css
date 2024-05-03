@@ -1,0 +1,105 @@
+.input-field {
+    /* Basic styling */
+    border: 2px solid #ccc; /* Border color */
+    border-radius: 6px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the input field */
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    background-color: #f9f9f9; /* Background color */
+    width: 300px; /* Adjust width as needed */
+    
+    /* Transition for smooth hover effect */
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .input-field:hover {
+    border-color: #999; /* Darker border color on hover */
+  }
+  
+  /* Focus effect */
+  .input-field:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #66afe9; /* Highlight border color on focus */
+    box-shadow: 0 0 5px #66afe9; /* Add subtle box shadow on focus */
+  }
+  
+  /* Placeholder styling */
+  .input-field::placeholder {
+    color: #999; /* Placeholder text color */
+  }
+  
+  /* Optional: Disabled state */
+  .input-field:disabled {
+    background-color: #eee; /* Lighter background color for disabled state */
+    cursor: not-allowed; /* Change cursor to not-allowed */
+  }
+  
+  /* Optional: Error state */
+  .input-field.error {
+    border-color: #e74c3c; /* Red border color for error state */
+  }
+  
+  .planner-button {
+    /* Basic styling */
+    display: inline-block;
+    padding: 10px 20px; /* Padding for inner spacing */
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+    
+    /* Colors */
+    color: #fff; /* Text color */
+    background-color: #3498db; /* Background color */
+  }
+  
+  /* Hover effect */
+  .planner-button:hover {
+    background-color: #2980b9; /* Darker background color on hover */
+  }
+  
+  /* Focus effect */
+  .planner-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 5px #66afe9; /* Add subtle box shadow on focus */
+  }
+  
+  /* Optional: Disabled state */
+  .planner-button:disabled {
+    opacity: 0.6; /* Reduce opacity for disabled state */
+    cursor: not-allowed; /* Change cursor to not-allowed */
+  }
+
+  label{
+    color:white;
+  }
+  
+  .planner-column-flex-container
+  {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:10px;
+    background-color: #27293D;
+    padding: 30px 10px 30px 10px;
+    min-width:500px;
+    border-radius: 10px;
+    margin-left: 2vw;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); 
+
+  }
+
+  p{
+    color:white;
+  }
+
+.centered-text {
+    text-align: center;
+    color: white;
+}

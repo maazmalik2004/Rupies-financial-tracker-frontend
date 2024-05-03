@@ -30,7 +30,7 @@ function Navbar() {
     <div className="nav">
         <CustomizableDateModule />
         <TabsSegmentedControls
-          tabs={["dashboard", "categories", "about", "help"]}
+          tabs={["dashboard", "categories", "planner", "help"]}
           onSelect={handleTabSelect}
           currentTab={selectedTab}
         />

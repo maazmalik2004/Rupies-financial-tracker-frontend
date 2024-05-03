@@ -8,6 +8,7 @@ import Form from "./Form/Form";
 import Categories from "./Categories/Categories.jsx";
 import Chatbot from "./Chatbot/Chatbot.jsx";
 import Login from "./Login/Login.jsx";
+import RetirementPlanner from "./planner/planner.jsx";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
 
       
       {selectedTab === "categories" && <Categories />}
+      {selectedTab === "planner" && <RetirementPlanner />}
 
     </div>)}
     </>
