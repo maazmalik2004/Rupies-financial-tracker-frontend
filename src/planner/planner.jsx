@@ -75,8 +75,11 @@ function RetirementPlanner() {
             totalSavingsAtRetirement: totalSavingsAtRetirement.toFixed(2)
         });
 
+        if (results)
+            {
         const resultsElement = document.getElementById("results");
     resultsElement.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
     };
 
     return (
