@@ -8,7 +8,6 @@ import axios from "axios";
 
 function Categories() {
   const [responseMessage, setResponseMessage] = useState("");
-
   const { incomeSources, setIncomeSources, expenseSources, setExpenseSources } =
     useAppState();
   const [formOpen, setFormOpen] = useState(false);
@@ -17,6 +16,10 @@ function Categories() {
     name: "",
     budget: "10000",
   });
+
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [newBudget, setNewBudget] = useState("");
 
   useEffect(() => {
     console.log("Updated incomeSources:", incomeSources);
@@ -38,14 +41,14 @@ function Categories() {
     event.preventDefault();
 
     if (categoryForm.name.trim() === "") {
-      setResponseMessage("name cannot be empty");
+      setResponseMessage("Name cannot be empty");
       return;
     }
 
     try {
       const response = await axios.post(
         "http://localhost:8000/addcategory",
-        categoryForm,
+        categoryForm
       );
 
       if (response.data.status) {
@@ -53,71 +56,102 @@ function Categories() {
       } else {
         setResponseMessage("Category addition failed");
       }
-      reloadCategories()
+      reloadCategories();
     } catch (error) {
-      setResponseMessage("Category addtion failed");
+      setResponseMessage("Category addition failed");
     }
   }
 
+  function handleCardClick(category) {
+    setSelectedCategory(category);
+    setNewBudget(category.budget); 
+    setPopupOpen(true); 
+  }
+  
+
   async function handleDeleteCategory(index, type) {
     try {
-        let categoryList;
-        if (type === "income") {
-            categoryList = incomeSources;
-        } else if (type === "expense") {
-            categoryList = expenseSources;
-        }
+      let categoryList;
+      if (type === "income") {
+        categoryList = incomeSources;
+      } else if (type === "expense") {
+        categoryList = expenseSources;
+      }
 
-        const categoryName = categoryList[index].name;
+      const categoryName = categoryList[index].name;
 
-        const payload = {
-            name: categoryName,
-            type: type,
-        };
+      const payload = {
+        name: categoryName,
+        type: type,
+      };
 
-        const response = await axios.post(
-            "http://localhost:8000/deletecategory",
-            payload
-        );
+      const response = await axios.post(
+        "http://localhost:8000/deletecategory",
+        payload
+      );
 
-        if (response.data && response.data.status) {
-            setResponseMessage("Category deleted successfully");
-        } else {
-            setResponseMessage("Category deletion failed");
-        }
-        reloadCategories();
-    } catch (error) {
+      if (response.data && response.data.status) {
+        setResponseMessage("Category deleted successfully");
+      } else {
         setResponseMessage("Category deletion failed");
+      }
+      reloadCategories();
+    } catch (error) {
+      setResponseMessage("Category deletion failed");
     }
-}
-
+  }
 
   async function reloadCategories() {
     try {
-        const response = await axios.get("http://localhost:8000/reloadcategories");
+      const response = await axios.get("http://localhost:8000/reloadcategories");
 
-        if (response.data) {
-            const categories = response.data;
+      if (response.data) {
+        const categories = response.data;
 
-            const incomeCategories = categories.filter(category => category.type === "income" || category.type === "Income");
-            const expenseCategories = categories.filter(category => category.type === "expense" ||category.type === "Expense");
+        const incomeCategories = categories.filter(
+          (category) => category.type === "income" || category.type === "Income"
+        );
+        const expenseCategories = categories.filter(
+          (category) => category.type === "expense" || category.type === "Expense"
+        );
 
-            setIncomeSources(incomeCategories);
-            setExpenseSources(expenseCategories);
-        }
+        setIncomeSources(incomeCategories);
+        setExpenseSources(expenseCategories);
+      }
     } catch (error) {
-        console.log("Failed to sync categories.");
+      console.log("Failed to sync categories.");
     }
-}
+  }
 
-useEffect(() => {
-  reloadCategories();
-  console.log(incomeSources);
-  console.log(expenseSources);
-}, []);
+  useEffect(() => {
+    reloadCategories();
+  }, []);
 
   function handleClose() {
     setFormOpen(false);
+  }
+
+  async function handlePopupSubmit(event) {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/updatebudget/",
+        {
+          category: selectedCategory.name,
+          type: selectedCategory.type,
+          budget: newBudget
+        }
+      );
+      if (response.data && response.data.status) {
+        setResponseMessage("Budget updated successfully");
+        reloadCategories();
+        setPopupOpen(false);
+      } else {
+        setResponseMessage("Failed to update budget");
+      }
+    } catch (error) {
+      setResponseMessage("Failed to update budget");
+    }
   }
 
   return (
@@ -172,27 +206,57 @@ useEffect(() => {
         )}
       </div>
       <div className="income-sources-pane">
-        {incomeSources.map((source, index) => (
-          <div className="income-card" key={index}>
-            <DeleteIcon
-              style={{ color: "white" }}
-              onClick={() => handleDeleteCategory(index, "income")}
-            />
-            {source.name}
-          </div>
-        ))}
-      </div>
-      <div className="expense-sources-pane">
-        {expenseSources.map((source, index) => (
-          <div className="expense-card" key={index}>
-            <DeleteIcon
-              style={{ color: "white" }}
-              onClick={() => handleDeleteCategory(index, "expense")}
-            />
-            {source.name}
-          </div>
-        ))}
-      </div>
+  {incomeSources.map((source, index) => (
+    <div className="income-card" key={index} onClick={() => handleCardClick(source)}>
+      <DeleteIcon
+        style={{ color: "white" }}
+        onClick={() => handleDeleteCategory(index, "income")}
+      />
+      <span style={{ marginLeft: "auto" }}>{source.name}</span>
+      <span style={{ marginLeft: "auto", marginRight: "10px" }}>{source.budget}</span>
+    </div>
+  ))}
+</div>
+
+<div className="expense-sources-pane">
+  {expenseSources.map((source, index) => (
+    <div className="expense-card" key={index} onClick={() => handleCardClick(source)}>
+      <DeleteIcon
+        style={{ color: "white" }}
+        onClick={() => handleDeleteCategory(index, "expense")}
+      />
+      <span style={{ marginRight: "auto" }}>{source.name}</span>
+      <span style={{ marginLeft: "auto", marginRight: "10px" }}>{source.budget}</span>
+    </div>
+  ))}
+</div>
+
+      {popupOpen && (
+  <div className="popup">
+    <form onSubmit={handlePopupSubmit}>
+      <p style={{ color: selectedCategory.type === 'income' ? 'green' : 'red' }}>{selectedCategory.name}</p>
+     
+
+        <input
+          type="number"
+          id="budgetInput"
+          value={newBudget}
+          onChange={(e) => setNewBudget(e.target.value)}
+          placeholder="New Budget"
+        />
+
+      <br/>
+      <br/>
+
+      <button type="submit">Submit</button>
+      {"     "}
+      <button onClick={() => setPopupOpen(false)}>Close</button>
+    </form>
+  </div>
+)}
+
+
+
     </div>
   );
 }

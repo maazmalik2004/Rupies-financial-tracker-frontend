@@ -158,3 +158,89 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content:space-between;
     color: turquoise;
 }
+
+/* Add these styles to your CSS file */
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 40px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 10px;
+  border-left: 5px solid rgb(43, 158, 147);;}
+
+.popup input {
+  border: 2px solid #ccc; /* Border color */
+    border-radius: 6px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the input field */
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    background-color: #f9f9f9; /* Background color */
+    width: 300px; /* Adjust width as needed */
+    
+    /* Transition for smooth hover effect */
+    transition: border-color 0.3s ease;
+}
+
+.popup input:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: turquoise; /* Highlight border color on focus */
+  box-shadow: 0 0 5px turquoise; /* Add subtle box shadow on focus */
+}
+
+.popup input:hover {
+  border-color: #999; /* Darker border color on hover */
+}
+
+.popup input::placeholder {
+  color: #999; /* Placeholder text color */
+}
+
+.popup input :disabled {
+  background-color: #eee; /* Lighter background color for disabled state */
+  cursor: not-allowed; /* Change cursor to not-allowed */
+}
+
+.popup input .input-field.error {
+  border-color: #e74c3c; /* Red border color for error state */
+}
+
+.popup button {
+  display: inline-block;
+  padding: 10px 20px; /* Padding for inner spacing */
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
+  
+  /* Colors */
+  color: #fff; /* Text color */
+  background-color: turquoise; /* Background color */
+}
+
+
+/* Hover effect */
+.popup button:hover {
+  background-color: #2980b9; /* Darker background color on hover */
+}
+
+/* Focus effect */
+.popup button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 5px #66afe9; /* Add subtle box shadow on focus */
+}
+
+/* Optional: Disabled state */
+.popup button:disabled {
+  opacity: 0.6; /* Reduce opacity for disabled state */
+  cursor: not-allowed; /* Change cursor to not-allowed */
+}
