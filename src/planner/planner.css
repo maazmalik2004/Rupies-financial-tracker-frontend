@@ -55,7 +55,7 @@
     
     /* Colors */
     color: #fff; /* Text color */
-    background-color: #3498db; /* Background color */
+    background-color: turquoise; /* Background color */
   }
   
   /* Hover effect */
@@ -90,7 +90,7 @@
     padding: 30px 10px 30px 10px;
     min-width:500px;
     border-radius: 10px;
-    margin-left: 2vw;
+    margin-left: 30vw;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); 
 
   }
