@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import "./planner.css";
+import SliderComponent from "./slider.jsx";
 
 function RetirementPlanner() {
     const [formData, setFormData] = useState({
-        currentAge: '',
-        retirementAge: '',
+        currentAge: 20, 
+        retirementAge: 60,
         lifeExpectancy: '',
         monthlyExpenses: '',
         expenseFactor: '',
@@ -13,6 +14,14 @@ function RetirementPlanner() {
         annualReturnRate: ''
     });
     const [results, setResults] = useState(null);
+
+    const handleAgeChange = (newAges) => {
+        setFormData(prevState => ({
+            ...prevState,
+            currentAge: newAges[0],
+            retirementAge: newAges[1]
+        }));
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -94,6 +103,12 @@ function RetirementPlanner() {
             </div>
             <br/>
             <div className='planner-column-flex-container'>
+            <SliderComponent
+                    currentAge={formData.currentAge}
+                    retirementAge={formData.retirementAge}
+                    onAgeChange={handleAgeChange} // Pass the correct function here
+                />
+
                 <label>Current Age:<br/>
                     <input type="number" name="currentAge" value={formData.currentAge} onChange={handleChange} className="input-field"/>
                 </label><br />
