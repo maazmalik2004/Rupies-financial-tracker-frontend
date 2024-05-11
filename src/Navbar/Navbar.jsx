@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "./navbar.css";
 import TabsSegmentedControls from "./TabsSegmentedControls";
 import CustomizableDateModule from "./CustomizableDateModule";
@@ -7,8 +7,11 @@ import SwitchControlled from "./SwitchControlled";
 import { useAppState } from "../AppStateContext";
 
 function Navbar() {
-  const { selectedTab, setSelectedTab, userTheme, setUserTheme } =
+  const { selectedTab, setSelectedTab} =
     useAppState();
+  const [isHovering, setIsHovering] = useState(false);
+  const { setLoggedIn } = useAppState();
+
 
   const handleTabSelect = function (tab) {
     console.log("Selected Tab:", tab);
@@ -25,6 +28,24 @@ function Navbar() {
     setSelectedTab("profile");
   }
 
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+  };
+
+  // Function to handle mouse leave
+  const handleMouseLeave = () => {
+    
+    setIsHovering(false);
+  };
+
+  const handleLogOut=()=>{
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) 
+    {
+      setLoggedIn(false);
+    }
+  };
+
   //returning component
   return (
     <div className="nav">
@@ -34,10 +55,10 @@ function Navbar() {
           onSelect={handleTabSelect}
           currentTab={selectedTab}
         />
-      <div className="right">
-        {/*<SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} />*/}
+      <div className="right" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleLogOut}>
+        {/* <SwitchControlled isChecked={userTheme} onSelect={handleSwitchSelect} /> */}
         <div className="navbarverticalflex">
-        <p>{sessionStorage.getItem('username')}</p>
+          <p>{isHovering ? "log  out" : sessionStorage.getItem("username")}</p>
         </div>
         <BasicAvatars
           name={sessionStorage.getItem('username')}
