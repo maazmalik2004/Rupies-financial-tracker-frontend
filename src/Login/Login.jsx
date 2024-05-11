@@ -332,7 +332,6 @@ function Login() {
                         <button type="button" className="button" onClick={() => setLoginStage(0)}>
                             CANCEL
                         </button>
-                        <p style={{ color: "turquoise" }}>User data is protected (lol)</p>
                         {messages.map((message, index) => (
                             <p key={index}>{message}</p>
                         ))}
