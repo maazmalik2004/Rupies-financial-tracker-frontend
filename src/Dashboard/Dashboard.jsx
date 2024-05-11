@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./dashboard.css";
 import LogHistory from "./LogHistory/LogHistory";
 import Graph from "./Graph";
 import { ZAxis } from "recharts";
+import { useAppState } from "../AppStateContext";
 
 const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
+
+  const {chartType,setChartType}=useAppState();
+
   return (
     <div className="dashboard-container">
       <div className="card">
@@ -22,35 +26,11 @@ const Dashboard = ({ income, expense, balance, graphImageUrl }) => {
         </div>
       <div className="graph">
         {/*<img src={graphImageUrl} alt="Graph" className="graph-image" />*/}
-        <Graph/>
+        <Graph chartType={chartType}/>
       </div>
       <div className="card">
         <LogHistory />
       </div>
-      <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
-        <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
-        <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
-        <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
-        <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
-        <div className="card">
-      <p>BALANCE</p>
-        <h1 style={balance>0 ?{color:"green"}:{color:"red"}}>₹ {balance}</h1>
-        </div>
     </div>
   );
 };

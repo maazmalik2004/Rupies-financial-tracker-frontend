@@ -12,6 +12,11 @@ function ControlPanel() {
   const [isFilterActive, setIsFilterActive] = useState(false); 
   const {formState, setFormState}=useAppState();
   const {graphData,setGraphData}=useAppState();
+  const {chartType,setChartType}=useAppState();
+
+  const handleChartTypeChange = (event) => {
+    setChartType(event.target.value); // Update the chart type based on the selected option
+  };
 
   const fetchDataAndStoreInSessionStorage = async () => {
     try {
@@ -19,7 +24,7 @@ function ControlPanel() {
       const response = await axios.post('http://localhost:8000/graph/',requeststring);
       setGraphData(response.data);
       console.log(graphData);
-
+  
     } catch (error) {
       console.log("in error block");
       console.error('Error fetching data:', error);
@@ -82,35 +87,13 @@ useEffect(() => {
   fetchDataAndStoreInSessionStorage();
 }, [formState]);
 
+useEffect(() => {
+  fetchDataAndStoreInSessionStorage();
+}, []);
+
   return (
     <>
-      <div className>
-        {/*<MenuSelect
-          onSelect={handleTermSelect}
-          currentSelect={termSelect}
-          menu={["daily", "weekly", "monthly", "yearly"]}
-        />
-        <br />
-        {termSelect === "monthly" && (
-          <ScrollableMenuSelect
-            onSelect={handleMonthSelect}
-            currentSelect={monthSelect}
-            menu={[
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December",
-            ]}
-          />
-        )}*/}
+      <div>
         <div className="flexmaster69">
           <div className="log-new">
             <FloatingActionButtons onClick={handleButtonClick} />
@@ -215,7 +198,13 @@ useEffect(() => {
     <button type="submit" className="filterbutton">Apply</button>
 </form>
 
+
         )}
+        <select value={chartType} onChange={handleChartTypeChange} className="select-chart-type">
+        <option value="pie">Pie Chart</option>
+        <option value="bar">Bar Chart</option>
+        <option value="scatter">Scatter Chart</option>
+      </select>
       </div>
     </>
   );

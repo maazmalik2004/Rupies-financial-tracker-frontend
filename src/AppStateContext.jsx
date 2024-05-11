@@ -62,6 +62,8 @@ useEffect(() => {
   sessionStorage.setItem('graphData', JSON.stringify(graphData));
 }, [graphData]);
 
+const [chartType, setChartType] = useState('bar'); // Default chart type is 'pie'
+
   return (
     <AppStateContext.Provider
       value={{
@@ -75,6 +77,7 @@ useEffect(() => {
         loggedIn,setLoggedIn,
         formState, setFormState,
         graphData, setGraphData,
+        chartType, setChartType,
       }}
     >
       {children}
