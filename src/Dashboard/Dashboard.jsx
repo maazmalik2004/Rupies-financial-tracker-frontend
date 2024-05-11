@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import LogHistory from "./LogHistory/LogHistory";
 import Graph from "./Graph";
 import { useAppState } from "../AppStateContext";
+import SlotMachineDigit from "./slotmachine.jsx";
+
 
 const Dashboard = () => {
   const { chartType, setChartType } = useAppState();
@@ -21,19 +23,15 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="card">
         <p>INCOME</p>
-        <h1 style={{ color: "turquoise" }}> ₹ {dashboardIncome}</h1>
+        <SlotMachineDigit value={dashboardIncome} type="income"/>
       </div>
       <div className="card">
         <p>EXPENSE</p>
-        <h1 style={{ color: "red" }}> ₹ {dashboardExpense}</h1>
-      </div>
+        <SlotMachineDigit value={dashboardExpense} type="expense"/>
+        </div>
       <div className="card">
         <p>BALANCE</p>
-        <h1
-          style={dashboardBalance > 0 ? { color: "turquoise" } : { color: "red" }}
-        >
-          ₹ {dashboardBalance}
-        </h1>
+        <SlotMachineDigit value={dashboardBalance} type="balance"/>
       </div>
       <div className="graph">
         <Graph chartType={chartType} />
