@@ -18,7 +18,7 @@ export default function CheckboxLabels({ onRecurringChange }) {
 
   return (
     <FormGroup>
-      <FormControlLabel
+      <FormControlLabel style={{color:"black"}}
         control={
           <Checkbox checked={isRecurring} onChange={handleRecurringChange} />
         }

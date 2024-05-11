@@ -89,8 +89,9 @@ function Chatbot() {
                 message.sender === "bot" ? "chatloggpt" : "chatloguser";
               return (
                 <div key={index} className={messageClass}>
-                  <p>{message.content}</p>
-                </div>
+  <p style={{ color: message.sender === "bot" ? "white" : "black" }}>{message.content}</p>
+</div>
+
               );
             })}
             {waiting && <LoadingIcon />}
