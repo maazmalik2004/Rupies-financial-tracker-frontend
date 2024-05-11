@@ -15,7 +15,7 @@ import axios from "axios";
 
 function Form() {
   const currentDate = dayjs(); // Get the current date
-  const { setIsFormActive } = useAppState(); // Assuming you want to use this later
+  const { setIsFormActive } = useAppState();
   const { incomeSources, setIncomeSources } = useAppState(); 
   const { expenseSources, setExpenseSources } = useAppState();
 
@@ -122,6 +122,7 @@ function Form() {
   const handleSubmit = (buttonLabel) => {
     // Trigger the callback function with the button label
     postDetails();
+    setIsFormActive(false);
   };
 
   useEffect(() => {

@@ -18,6 +18,10 @@ function ControlPanel() {
     setChartType(event.target.value); // Update the chart type based on the selected option
   };
 
+  useEffect(() => {
+    fetchDataAndStoreInSessionStorage();
+  }, [isFormActive]);
+
   const fetchDataAndStoreInSessionStorage = async () => {
     try {
       const requeststring=formState//JSON.stringify(formState);

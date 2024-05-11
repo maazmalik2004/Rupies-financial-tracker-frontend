@@ -10,61 +10,50 @@ import Chatbot from "./Chatbot/Chatbot.jsx";
 import Login from "./Login/Login.jsx";
 import RetirementPlanner from "./planner/planner.jsx";
 
-
 function App() {
-  const { loggedIn} = useAppState();
-  const { selectedTab} = useAppState();
-  const { dashboardState} = useAppState();
-  const { income, expense, balance, graphImage } = dashboardState;
-  const { isFormActive} = useAppState();
+  const { loggedIn } = useAppState();
+  const { selectedTab } = useAppState();
+  const { isFormActive } = useAppState();
 
-  if(loggedIn==true)
-  {
+  if (loggedIn == true) {
     document.body.style.backgroundColor = "#1D1D2D";
-  }
-  else{
+  } else {
     document.body.style.backgroundColor = "turquoise";
   }
 
   return (
     <>
-    {!loggedIn && <Login/>}
-    {loggedIn && (
-    <div className="app">
-      <Chatbot/>
-      <div className="navbar">
-        <Navbar />
-      </div>
-
-      {selectedTab === "dashboard" && (
-        <>
-          <div className="control-panel">
-            <ControlPanel/>
-            <img src={require('./logo.png')} alt="Logo" className="logo"/>
+      {!loggedIn && <Login />}
+      {loggedIn && (
+        <div className="app">
+          <Chatbot />
+          <div className="navbar">
+            <Navbar />
           </div>
 
-          <div className="dashboard">
-            <Dashboard
-              income={income}
-              expense={expense}
-              balance={balance}
-              graphImageUrl={graphImage}
-            />
-          </div>
-        </>
-      )}
-      
-      {isFormActive === true && (
-        <div className="form-layer">
-          <Form className="form" />
+          {selectedTab === "dashboard" && (
+            <>
+              <div className="control-panel">
+                <ControlPanel />
+                <img src={require("./logo.png")} alt="Logo" className="logo" />
+              </div>
+
+              <div className="dashboard">
+                <Dashboard />
+              </div>
+            </>
+          )}
+
+          {isFormActive === true && (
+            <div className="form-layer">
+              <Form className="form" />
+            </div>
+          )}
+
+          {selectedTab === "categories" && <Categories />}
+          {selectedTab === "planner" && <RetirementPlanner />}
         </div>
       )}
-
-      
-      {selectedTab === "categories" && <Categories />}
-      {selectedTab === "planner" && <RetirementPlanner />}
-
-    </div>)}
     </>
   );
 }
