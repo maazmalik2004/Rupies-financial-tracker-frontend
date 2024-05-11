@@ -33,6 +33,14 @@ useEffect(() => {
   sessionStorage.setItem('loggedIn', JSON.stringify(loggedIn));
 }, [loggedIn]);
 
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  console.log('formatted date : ',`${year}-${month}-${day}`);
+  return `${year}-${month}-${day}`;
+};
+
 const [formState, setFormState] = useState(() => {
   const storedFormState = sessionStorage.getItem('formState');
   return storedFormState
@@ -40,8 +48,8 @@ const [formState, setFormState] = useState(() => {
     : {
         selectedOption: 'both',
         allTimeCheckbox: false,
-        startDate: '',
-        endDate: '',
+        startDate: formatDate(new Date(new Date().setMonth(new Date().getMonth() - 1))),
+    endDate: formatDate(new Date()),
         amountRangeCheckbox: false,
         startingAmount: '',
         endingAmount: '',
