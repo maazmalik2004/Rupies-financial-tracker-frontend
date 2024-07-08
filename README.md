@@ -28,7 +28,7 @@
 
 
 # A personal assistant for all your queries
-![image](https://github.com/maazmalik2004/Rupies-financial-tracker-frontend/assets/128217421/19dcc4d2-a7d1-4767-8aa9-eea1b828f7e5)
+![image](https://github.com/maazmalik2004/Rupies-financial-tracker-frontend/assets/128217421/aa5c9d91-5e9c-496e-bc52-b6f7f63c796f)
 
 
 
